@@ -1,0 +1,2156 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register - Ofuje CBT Platform</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #6C3CE1;
+            --primary-light: #8B5CF6;
+            --primary-dark: #5B21B6;
+            --secondary: #F59E0B;
+            --accent: #10B981;
+            --danger: #EF4444;
+            --bg: #FFFFFF;
+            --bg-secondary: #F8FAFC;
+            --bg-card: #FFFFFF;
+            --text: #0F172A;
+            --text-secondary: #64748B;
+            --text-muted: #94A3B8;
+            --border: #E2E8F0;
+            --shadow: 0 1px 3px rgba(0,0,0,0.1);
+            --shadow-lg: 0 10px 40px rgba(108,60,225,0.15);
+            --shadow-xl: 0 25px 60px rgba(108,60,225,0.2);
+            --radius: 16px;
+            --radius-sm: 8px;
+            --radius-full: 50px;
+            --gradient: linear-gradient(135deg, #6C3CE1, #8B5CF6, #A78BFA);
+            --gradient-warm: linear-gradient(135deg, #F59E0B, #F97316);
+            --gradient-cool: linear-gradient(135deg, #10B981, #06B6D4);
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        [data-theme="dark"] {
+            --bg: #0F0F1A;
+            --bg-secondary: #1A1A2E;
+            --bg-card: #1E1E32;
+            --text: #F1F5F9;
+            --text-secondary: #94A3B8;
+            --text-muted: #64748B;
+            --border: #2D2D44;
+            --shadow: 0 1px 3px rgba(0,0,0,0.3);
+            --shadow-lg: 0 10px 40px rgba(108,60,225,0.25);
+            --shadow-xl: 0 25px 60px rgba(108,60,225,0.3);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: var(--bg-secondary); }
+        ::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 4px; }
+
+        /* NAVBAR */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            padding: 12px 0;
+            background: var(--bg);
+            border-bottom: 1px solid var(--border);
+            backdrop-filter: blur(20px);
+        }
+
+        [data-theme="dark"] .navbar {
+            background: rgba(15,15,26,0.95);
+        }
+
+        .nav-container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 800;
+            font-size: 28px;
+            color: var(--text);
+        }
+
+        .logo-icon {
+            width: 44px;
+            height: 44px;
+            background: var(--gradient);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 20px;
+            box-shadow: 0 4px 15px rgba(108,60,225,0.4);
+        }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .theme-toggle {
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            background: var(--bg-card);
+            color: var(--text);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            transition: var(--transition);
+        }
+
+        .theme-toggle:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+            transform: rotate(20deg);
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 24px;
+            border-radius: var(--radius-full);
+            font-weight: 600;
+            font-size: 14px;
+            text-decoration: none;
+            transition: var(--transition);
+            cursor: pointer;
+            border: none;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .btn-ghost {
+            background: transparent;
+            color: var(--text);
+            border: 1px solid var(--border);
+        }
+
+        .btn-ghost:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+            background: rgba(108,60,225,0.05);
+        }
+
+        .btn-primary {
+            background: var(--gradient);
+            color: white;
+            box-shadow: 0 4px 15px rgba(108,60,225,0.4);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(108,60,225,0.5);
+        }
+
+        .btn-primary:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .btn-secondary {
+            background: var(--gradient-warm);
+            color: white;
+            box-shadow: 0 4px 15px rgba(245,158,11,0.4);
+        }
+
+        .btn-secondary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(245,158,11,0.5);
+        }
+
+        .btn-lg {
+            padding: 16px 36px;
+            font-size: 16px;
+        }
+
+        .btn-block {
+            width: 100%;
+            justify-content: center;
+        }
+
+        /* REGISTER LAYOUT */
+        .register-page {
+            min-height: 100vh;
+            display: flex;
+            padding-top: 72px;
+        }
+
+        /* LEFT PANEL */
+        .register-left {
+            flex: 0 0 440px;
+            background: var(--gradient);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 60px 48px;
+        }
+
+        .register-left::before {
+            content: '';
+            position: absolute;
+            top: -30%;
+            right: -30%;
+            width: 500px;
+            height: 500px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.08);
+        }
+
+        .register-left::after {
+            content: '';
+            position: absolute;
+            bottom: -20%;
+            left: -20%;
+            width: 400px;
+            height: 400px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.05);
+        }
+
+        .left-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .left-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 36px;
+            font-weight: 800;
+            color: white;
+            margin-bottom: 16px;
+            line-height: 1.2;
+        }
+
+        .left-desc {
+            color: rgba(255,255,255,0.85);
+            font-size: 16px;
+            line-height: 1.7;
+            margin-bottom: 40px;
+        }
+
+        .left-features {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .left-feature {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .left-feature-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 14px;
+            background: rgba(255,255,255,0.15);
+            backdrop-filter: blur(10px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 20px;
+            flex-shrink: 0;
+        }
+
+        .left-feature-text h4 {
+            color: white;
+            font-weight: 700;
+            font-size: 15px;
+            margin-bottom: 2px;
+        }
+
+        .left-feature-text p {
+            color: rgba(255,255,255,0.7);
+            font-size: 13px;
+        }
+
+        .left-stats {
+            margin-top: 48px;
+            display: flex;
+            gap: 32px;
+        }
+
+        .left-stat {
+            text-align: center;
+        }
+
+        .left-stat-value {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 28px;
+            font-weight: 800;
+            color: white;
+        }
+
+        .left-stat-label {
+            font-size: 12px;
+            color: rgba(255,255,255,0.7);
+        }
+
+        /* RIGHT PANEL */
+        .register-right {
+            flex: 1;
+            display: flex;
+            align-items: flex-start;
+            justify-content: center;
+            padding: 40px 24px;
+            overflow-y: auto;
+        }
+
+        .register-form-container {
+            width: 100%;
+            max-width: 560px;
+        }
+
+        .form-header {
+            margin-bottom: 32px;
+        }
+
+        .form-header h2 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 28px;
+            font-weight: 800;
+            margin-bottom: 8px;
+        }
+
+        .form-header p {
+            color: var(--text-secondary);
+            font-size: 15px;
+        }
+
+        .form-header p a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .form-header p a:hover {
+            text-decoration: underline;
+        }
+
+        /* STEP INDICATOR */
+        .steps-indicator {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 36px;
+        }
+
+        .step-dot {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .step-circle {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            border: 2px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 14px;
+            color: var(--text-muted);
+            transition: var(--transition);
+            flex-shrink: 0;
+        }
+
+        .step-dot.active .step-circle {
+            background: var(--gradient);
+            border-color: var(--primary);
+            color: white;
+        }
+
+        .step-dot.completed .step-circle {
+            background: var(--accent);
+            border-color: var(--accent);
+            color: white;
+        }
+
+        .step-label {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-muted);
+            display: none;
+        }
+
+        .step-dot.active .step-label {
+            color: var(--primary);
+        }
+
+        .step-dot.completed .step-label {
+            color: var(--accent);
+        }
+
+        .step-line {
+            flex: 1;
+            height: 2px;
+            background: var(--border);
+            min-width: 20px;
+            transition: var(--transition);
+        }
+
+        .step-line.completed {
+            background: var(--accent);
+        }
+
+        /* FORM STEPS */
+        .form-step {
+            display: none;
+            animation: fadeInStep 0.4s ease;
+        }
+
+        .form-step.active {
+            display: block;
+        }
+
+        @keyframes fadeInStep {
+            from { opacity: 0; transform: translateX(20px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        /* PLAN SELECTION */
+        .plan-cards {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+
+        .plan-card {
+            border: 2px solid var(--border);
+            border-radius: var(--radius);
+            padding: 20px 24px;
+            cursor: pointer;
+            transition: var(--transition);
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .plan-card:hover {
+            border-color: var(--primary-light);
+            background: rgba(108,60,225,0.03);
+        }
+
+        .plan-card.selected {
+            border-color: var(--primary);
+            background: rgba(108,60,225,0.06);
+            box-shadow: 0 0 0 3px rgba(108,60,225,0.15);
+        }
+
+        .plan-card.popular-plan {
+            border-color: var(--primary-light);
+        }
+
+        .plan-radio {
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            border: 2px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            transition: var(--transition);
+        }
+
+        .plan-card.selected .plan-radio {
+            border-color: var(--primary);
+            background: var(--primary);
+        }
+
+        .plan-card.selected .plan-radio::after {
+            content: '';
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: white;
+        }
+
+        .plan-info {
+            flex: 1;
+        }
+
+        .plan-info-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 4px;
+        }
+
+        .plan-name {
+            font-weight: 700;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .plan-name .popular-tag {
+            padding: 2px 10px;
+            background: var(--gradient);
+            color: white;
+            border-radius: var(--radius-full);
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        .plan-price {
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 800;
+            font-size: 18px;
+            color: var(--primary);
+        }
+
+        .plan-desc {
+            font-size: 13px;
+            color: var(--text-secondary);
+        }
+
+        .plan-features-mini {
+            display: flex;
+            gap: 12px;
+            margin-top: 8px;
+            flex-wrap: wrap;
+        }
+
+        .plan-feat {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 11px;
+            color: var(--text-muted);
+        }
+
+        .plan-feat i {
+            color: var(--accent);
+            font-size: 10px;
+        }
+
+        /* FORM GROUP */
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            display: block;
+            font-weight: 600;
+            font-size: 14px;
+            margin-bottom: 8px;
+            color: var(--text);
+        }
+
+        .form-label .required {
+            color: var(--danger);
+        }
+
+        .form-label .optional {
+            color: var(--text-muted);
+            font-weight: 400;
+            font-size: 12px;
+        }
+
+        .input-wrapper {
+            position: relative;
+        }
+
+        .input-wrapper i.input-icon {
+            position: absolute;
+            left: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-muted);
+            font-size: 16px;
+            transition: var(--transition);
+            z-index: 1;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 14px 16px 14px 48px;
+            border: 2px solid var(--border);
+            border-radius: var(--radius-sm);
+            background: var(--bg);
+            color: var(--text);
+            font-size: 15px;
+            font-family: 'Inter', sans-serif;
+            transition: var(--transition);
+            outline: none;
+        }
+
+        .form-input:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(108,60,225,0.15);
+        }
+
+        .form-input:focus + i.input-icon,
+        .form-input:focus ~ i.input-icon {
+            color: var(--primary);
+        }
+
+        .input-wrapper .input-icon-right {
+            position: absolute;
+            right: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-muted);
+            cursor: pointer;
+            font-size: 16px;
+            z-index: 1;
+        }
+
+        .input-wrapper .input-icon-right:hover {
+            color: var(--primary);
+        }
+
+        .form-select {
+            width: 100%;
+            padding: 14px 16px 14px 48px;
+            border: 2px solid var(--border);
+            border-radius: var(--radius-sm);
+            background: var(--bg);
+            color: var(--text);
+            font-size: 15px;
+            font-family: 'Inter', sans-serif;
+            transition: var(--transition);
+            outline: none;
+            appearance: none;
+            cursor: pointer;
+        }
+
+        .form-select:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(108,60,225,0.15);
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
+        .form-error {
+            font-size: 12px;
+            color: var(--danger);
+            margin-top: 6px;
+            display: none;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .form-error.show {
+            display: flex;
+        }
+
+        /* EDUCATION LEVEL PICKER */
+        .level-picker {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin-bottom: 8px;
+        }
+
+        .level-option {
+            border: 2px solid var(--border);
+            border-radius: var(--radius-sm);
+            padding: 14px 16px;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            position: relative;
+        }
+
+        .level-option:hover {
+            border-color: var(--primary-light);
+            background: rgba(108,60,225,0.03);
+        }
+
+        .level-option.selected {
+            border-color: var(--primary);
+            background: rgba(108,60,225,0.08);
+        }
+
+        .level-option.disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+            pointer-events: none;
+        }
+
+        .level-check {
+            width: 22px;
+            height: 22px;
+            border-radius: 6px;
+            border: 2px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            transition: var(--transition);
+            font-size: 12px;
+            color: transparent;
+        }
+
+        .level-option.selected .level-check {
+            border-color: var(--primary);
+            background: var(--primary);
+            color: white;
+        }
+
+        .level-icon {
+            font-size: 20px;
+            color: var(--primary);
+        }
+
+        .level-text {
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .level-hint {
+            font-size: 12px;
+            color: var(--text-muted);
+            margin-top: 4px;
+        }
+
+        .selected-count {
+            font-size: 13px;
+            color: var(--text-secondary);
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+
+        .selected-count span {
+            color: var(--primary);
+        }
+
+        /* PASSWORD STRENGTH */
+        .password-strength {
+            display: flex;
+            gap: 4px;
+            margin-top: 8px;
+        }
+
+        .strength-bar {
+            flex: 1;
+            height: 4px;
+            background: var(--border);
+            border-radius: 2px;
+            transition: var(--transition);
+        }
+
+        .strength-bar.active.weak { background: var(--danger); }
+        .strength-bar.active.medium { background: var(--secondary); }
+        .strength-bar.active.strong { background: var(--accent); }
+
+        .strength-text {
+            font-size: 12px;
+            margin-top: 4px;
+            font-weight: 600;
+        }
+
+        .strength-text.weak { color: var(--danger); }
+        .strength-text.medium { color: var(--secondary); }
+        .strength-text.strong { color: var(--accent); }
+
+        /* FORM ACTIONS */
+        .form-actions {
+            display: flex;
+            gap: 12px;
+            margin-top: 28px;
+        }
+
+        .form-actions .btn {
+            flex: 1;
+        }
+
+        /* TERMS */
+        .terms-check {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            margin-top: 20px;
+            margin-bottom: 8px;
+        }
+
+        .terms-checkbox {
+            width: 22px;
+            height: 22px;
+            border-radius: 6px;
+            border: 2px solid var(--border);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            transition: var(--transition);
+            color: transparent;
+            font-size: 12px;
+            margin-top: 2px;
+        }
+
+        .terms-checkbox.checked {
+            border-color: var(--primary);
+            background: var(--primary);
+            color: white;
+        }
+
+        .terms-text {
+            font-size: 13px;
+            color: var(--text-secondary);
+            line-height: 1.5;
+        }
+
+        .terms-text a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        /* DIVIDER */
+        .form-divider {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin: 24px 0;
+        }
+
+        .form-divider::before,
+        .form-divider::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: var(--border);
+        }
+
+        .form-divider span {
+            font-size: 13px;
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+
+        /* PAYMENT SECTION */
+        .payment-section {
+            display: none;
+        }
+
+        .payment-section.active {
+            display: block;
+        }
+
+        .payment-info-card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 24px;
+            margin-bottom: 24px;
+        }
+
+        .payment-plan-summary {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 16px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .payment-plan-name {
+            font-weight: 700;
+            font-size: 18px;
+        }
+
+        .payment-plan-amount {
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 800;
+            font-size: 24px;
+            color: var(--primary);
+        }
+
+        .bank-details {
+            margin-top: 16px;
+        }
+
+        .bank-detail-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .bank-detail-row:last-child {
+            border-bottom: none;
+        }
+
+        .bank-label {
+            font-size: 13px;
+            color: var(--text-secondary);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .bank-label i {
+            color: var(--primary);
+        }
+
+        .bank-value {
+            font-weight: 700;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .copy-btn {
+            width: 30px;
+            height: 30px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            background: var(--bg-card);
+            color: var(--text-muted);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 13px;
+            transition: var(--transition);
+        }
+
+        .copy-btn:hover {
+            color: var(--primary);
+            border-color: var(--primary);
+        }
+
+        .copy-btn.copied {
+            color: var(--accent);
+            border-color: var(--accent);
+        }
+
+        .payment-note {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            padding: 16px;
+            background: rgba(245,158,11,0.1);
+            border: 1px solid rgba(245,158,11,0.2);
+            border-radius: var(--radius-sm);
+            margin-top: 16px;
+        }
+
+        .payment-note i {
+            color: var(--secondary);
+            font-size: 18px;
+            margin-top: 2px;
+        }
+
+        .payment-note-text {
+            font-size: 13px;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        .payment-note-text strong {
+            color: var(--text);
+        }
+
+        .payment-ref {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 16px;
+            background: rgba(108,60,225,0.08);
+            border: 1px solid rgba(108,60,225,0.15);
+            border-radius: var(--radius-sm);
+            margin: 16px 0;
+        }
+
+        .payment-ref i {
+            color: var(--primary);
+            font-size: 20px;
+        }
+
+        .payment-ref-info {
+            flex: 1;
+        }
+
+        .payment-ref-label {
+            font-size: 11px;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+
+        .payment-ref-code {
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 800;
+            font-size: 18px;
+            color: var(--primary);
+            letter-spacing: 1px;
+        }
+
+        /* UPLOAD RECEIPT (NO FIREBASE STORAGE) */
+        .receipt-note {
+            font-size: 13px;
+            color: var(--text-secondary);
+            margin-top: 8px;
+            line-height: 1.5;
+        }
+
+        /* SUCCESS MODAL */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.5);
+            backdrop-filter: blur(8px);
+            z-index: 5000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal-card {
+            background: var(--bg-card);
+            border-radius: 24px;
+            padding: 48px 40px;
+            max-width: 440px;
+            width: 100%;
+            text-align: center;
+            box-shadow: var(--shadow-xl);
+            animation: modalIn 0.3s ease;
+        }
+
+        @keyframes modalIn {
+            from { opacity: 0; transform: scale(0.9) translateY(20px); }
+            to { opacity: 1; transform: scale(1) translateY(0); }
+        }
+
+        .modal-icon {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            margin: 0 auto 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 36px;
+        }
+
+        .modal-icon.success {
+            background: rgba(16,185,129,0.1);
+            color: var(--accent);
+        }
+
+        .modal-icon.pending {
+            background: rgba(245,158,11,0.1);
+            color: var(--secondary);
+        }
+
+        .modal-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 24px;
+            font-weight: 800;
+            margin-bottom: 12px;
+        }
+
+        .modal-desc {
+            font-size: 15px;
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin-bottom: 28px;
+        }
+
+        /* LOADING SPINNER */
+        .spinner {
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255,255,255,0.3);
+            border-top-color: white;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            display: none;
+        }
+
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        .btn .spinner {
+            display: none;
+        }
+
+        .btn.loading .spinner {
+            display: block;
+        }
+
+        .btn.loading .btn-text {
+            display: none;
+        }
+
+        /* TOAST */
+        .toast-container {
+            position: fixed;
+            top: 80px;
+            right: 24px;
+            z-index: 5000;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .toast {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 16px 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            box-shadow: var(--shadow-lg);
+            animation: slideIn 0.3s ease;
+            max-width: 360px;
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(100px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        .toast-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .toast-success .toast-icon { background: rgba(16,185,129,0.1); color: var(--accent); }
+        .toast-error .toast-icon { background: rgba(239,68,68,0.1); color: var(--danger); }
+        .toast-info .toast-icon { background: rgba(59,130,246,0.1); color: #3B82F6; }
+        .toast-warning .toast-icon { background: rgba(245,158,11,0.1); color: var(--secondary); }
+
+        .toast-message {
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        /* LOADER */
+        .loader {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: var(--bg);
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            gap: 20px;
+            transition: opacity 0.5s ease;
+        }
+
+        .loader.hidden { opacity: 0; pointer-events: none; }
+
+        .loader-spinner {
+            width: 48px;
+            height: 48px;
+            border: 4px solid var(--border);
+            border-top-color: var(--primary);
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+
+        .loader-text {
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 700;
+            font-size: 24px;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 1024px) {
+            .register-left { display: none; }
+            .register-right { padding: 32px 24px; }
+        }
+
+        @media (max-width: 768px) {
+            .register-right { padding: 24px 16px; }
+            .form-row { grid-template-columns: 1fr; }
+            .level-picker { grid-template-columns: 1fr; }
+            .form-actions { flex-direction: column; }
+            .plan-card { flex-direction: column; align-items: flex-start; }
+            .plan-info-header { flex-direction: column; gap: 4px; }
+            .step-label { display: none; }
+        }
+
+        @media (max-width: 480px) {
+            .register-right { padding: 20px 12px; }
+            .form-header h2 { font-size: 24px; }
+            .payment-plan-summary { flex-direction: column; gap: 8px; align-items: flex-start; }
+        }
+    </style>
+</head>
+<body>
+    <!-- LOADER -->
+    <div class="loader" id="loader">
+        <div class="loader-spinner"></div>
+        <div class="loader-text">Ofuje</div>
+    </div>
+
+    <!-- TOAST -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <!-- NAVBAR -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="logo">
+                <div class="logo-icon"><i class="fas fa-brain"></i></div>
+                Ofuje
+            </a>
+            <div class="nav-actions">
+                <button class="theme-toggle" id="themeToggle" title="Toggle dark mode">
+                    <i class="fas fa-moon"></i>
+                </button>
+                <a href="login.html" class="btn btn-ghost"><i class="fas fa-sign-in-alt"></i> Login</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- REGISTER PAGE -->
+    <div class="register-page">
+        <!-- LEFT PANEL -->
+        <div class="register-left">
+            <div class="left-content">
+                <h1 class="left-title">Join Thousands of Students Acing Their Exams</h1>
+                <p class="left-desc">Create your free account and start practicing for JAMB, WAEC, NECO, POST-UTME and university exams with our gamified CBT platform.</p>
+                <div class="left-features">
+                    <div class="left-feature">
+                        <div class="left-feature-icon"><i class="fas fa-bolt"></i></div>
+                        <div class="left-feature-text">
+                            <h4>Instant Access</h4>
+                            <p>Start practicing immediately after sign up</p>
+                        </div>
+                    </div>
+                    <div class="left-feature">
+                        <div class="left-feature-icon"><i class="fas fa-trophy"></i></div>
+                        <div class="left-feature-text">
+                            <h4>Compete & Win</h4>
+                            <p>Climb leaderboards and earn badges</p>
+                        </div>
+                    </div>
+                    <div class="left-feature">
+                        <div class="left-feature-icon"><i class="fas fa-shield-alt"></i></div>
+                        <div class="left-feature-text">
+                            <h4>Anti-Cheat System</h4>
+                            <p>Shuffled questions ensure real learning</p>
+                        </div>
+                    </div>
+                    <div class="left-feature">
+                        <div class="left-feature-icon"><i class="fas fa-chart-line"></i></div>
+                        <div class="left-feature-text">
+                            <h4>Track Progress</h4>
+                            <p>Detailed insights on your performance</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="left-stats">
+                    <div class="left-stat">
+                        <div class="left-stat-value" id="leftStatUsers">0+</div>
+                        <div class="left-stat-label">Students</div>
+                    </div>
+                    <div class="left-stat">
+                        <div class="left-stat-value" id="leftStatTests">0+</div>
+                        <div class="left-stat-label">Tests</div>
+                    </div>
+                    <div class="left-stat">
+                        <div class="left-stat-value">5</div>
+                        <div class="left-stat-label">Exam Types</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- RIGHT PANEL -->
+        <div class="register-right">
+            <div class="register-form-container">
+                <div class="form-header">
+                    <h2><i class="fas fa-user-plus"></i> Create Your Account</h2>
+                    <p>Already have an account? <a href="login.html">Sign in here</a></p>
+                </div>
+
+                <!-- STEP INDICATOR -->
+                <div class="steps-indicator">
+                    <div class="step-dot active" data-step="1">
+                        <div class="step-circle">1</div>
+                        <span class="step-label">Plan</span>
+                    </div>
+                    <div class="step-line"></div>
+                    <div class="step-dot" data-step="2">
+                        <div class="step-circle">2</div>
+                        <span class="step-label">Info</span>
+                    </div>
+                    <div class="step-line"></div>
+                    <div class="step-dot" data-step="3">
+                        <div class="step-circle">3</div>
+                        <span class="step-label">Levels</span>
+                    </div>
+                    <div class="step-line"></div>
+                    <div class="step-dot" data-step="4">
+                        <div class="step-circle">4</div>
+                        <span class="step-label">Done</span>
+                    </div>
+                </div>
+
+                <!-- STEP 1: PLAN SELECTION -->
+                <div class="form-step active" id="step1">
+                    <h3 style="font-size:20px;font-weight:700;margin-bottom:6px;">
+                        <i class="fas fa-tags" style="color:var(--primary);"></i> Choose Your Plan
+                    </h3>
+                    <p style="font-size:14px;color:var(--text-secondary);margin-bottom:24px;">Select the plan that fits your preparation needs.</p>
+
+                    <div class="plan-cards">
+                        <!-- FREE -->
+                        <div class="plan-card" data-plan="free" onclick="selectPlan(this)">
+                            <div class="plan-radio"></div>
+                            <div class="plan-info">
+                                <div class="plan-info-header">
+                                    <div class="plan-name"><i class="fas fa-gift" style="color:var(--accent);"></i> Free</div>
+                                    <div class="plan-price">₦0</div>
+                                </div>
+                                <div class="plan-desc">5 questions per 72 hours. Watch ads for more.</div>
+                                <div class="plan-features-mini">
+                                    <span class="plan-feat"><i class="fas fa-check"></i> Basic access</span>
+                                    <span class="plan-feat"><i class="fas fa-check"></i> Streaks</span>
+                                    <span class="plan-feat"><i class="fas fa-check"></i> Leaderboard</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- PREMIUM -->
+                        <div class="plan-card popular-plan" data-plan="premium" onclick="selectPlan(this)">
+                            <div class="plan-radio"></div>
+                            <div class="plan-info">
+                                <div class="plan-info-header">
+                                    <div class="plan-name"><i class="fas fa-gem" style="color:var(--primary);"></i> Premium <span class="popular-tag">Popular</span></div>
+                                    <div class="plan-price">₦1,500<span style="font-size:12px;color:var(--text-muted);font-weight:400;">/mo</span></div>
+                                </div>
+                                <div class="plan-desc">Unlimited access, no ads, full features.</div>
+                                <div class="plan-features-mini">
+                                    <span class="plan-feat"><i class="fas fa-check"></i> Unlimited</span>
+                                    <span class="plan-feat"><i class="fas fa-check"></i> No ads</span>
+                                    <span class="plan-feat"><i class="fas fa-check"></i> Insights</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- PREMIUM++ -->
+                        <div class="plan-card" data-plan="premiumplus" onclick="selectPlan(this)">
+                            <div class="plan-radio"></div>
+                            <div class="plan-info">
+                                <div class="plan-info-header">
+                                    <div class="plan-name"><i class="fas fa-crown" style="color:var(--secondary);"></i> Premium++</div>
+                                    <div class="plan-price">₦3,000<span style="font-size:12px;color:var(--text-muted);font-weight:400;">/3mo</span></div>
+                                </div>
+                                <div class="plan-desc">Everything + exclusive exams, priority access & streak freeze.</div>
+                                <div class="plan-features-mini">
+                                    <span class="plan-feat"><i class="fas fa-check"></i> All Premium</span>
+                                    <span class="plan-feat"><i class="fas fa-check"></i> Exclusives</span>
+                                    <span class="plan-feat"><i class="fas fa-check"></i> Streak freeze</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-error" id="planError"><i class="fas fa-exclamation-circle"></i> Please select a plan to continue</div>
+
+                    <div class="form-actions">
+                        <a href="index.html" class="btn btn-ghost"><i class="fas fa-arrow-left"></i> <span class="btn-text">Back</span></a>
+                        <button class="btn btn-primary" onclick="nextStep(1)"><span class="btn-text">Continue</span> <i class="fas fa-arrow-right"></i></button>
+                    </div>
+                </div>
+
+                <!-- STEP 2: PERSONAL INFO -->
+                <div class="form-step" id="step2">
+                    <h3 style="font-size:20px;font-weight:700;margin-bottom:6px;">
+                        <i class="fas fa-user" style="color:var(--primary);"></i> Personal Information
+                    </h3>
+                    <p style="font-size:14px;color:var(--text-secondary);margin-bottom:24px;">Tell us a bit about yourself.</p>
+
+                    <div class="form-group">
+                        <label class="form-label"><i class="fas fa-user"></i> Full Name <span class="required">*</span></label>
+                        <div class="input-wrapper">
+                            <input type="text" class="form-input" id="fullName" placeholder="Enter your full name" autocomplete="name">
+                            <i class="fas fa-user input-icon"></i>
+                        </div>
+                        <div class="form-error" id="nameError"><i class="fas fa-exclamation-circle"></i> Full name is required</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label"><i class="fas fa-envelope"></i> Email Address <span class="required">*</span></label>
+                        <div class="input-wrapper">
+                            <input type="email" class="form-input" id="email" placeholder="you@example.com" autocomplete="email">
+                            <i class="fas fa-envelope input-icon"></i>
+                        </div>
+                        <div class="form-error" id="emailError"><i class="fas fa-exclamation-circle"></i> Valid email is required</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label"><i class="fas fa-phone"></i> Phone Number <span class="required">*</span></label>
+                        <div class="input-wrapper">
+                            <input type="tel" class="form-input" id="phone" placeholder="08012345678" autocomplete="tel">
+                            <i class="fas fa-phone input-icon"></i>
+                        </div>
+                        <div class="form-error" id="phoneError"><i class="fas fa-exclamation-circle"></i> Valid phone number is required</div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label"><i class="fas fa-birthday-cake"></i> Age <span class="required">*</span></label>
+                            <div class="input-wrapper">
+                                <input type="number" class="form-input" id="age" placeholder="16" min="10" max="60" autocomplete="off">
+                                <i class="fas fa-birthday-cake input-icon"></i>
+                            </div>
+                            <div class="form-error" id="ageError"><i class="fas fa-exclamation-circle"></i> Age 10-60 required</div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label"><i class="fas fa-map-marker-alt"></i> State <span class="optional">(Optional)</span></label>
+                            <div class="input-wrapper">
+                                <select class="form-select" id="state">
+                                    <option value="">Select State</option>
+                                    <option>Abia</option><option>Adamawa</option><option>Akwa Ibom</option><option>Anambra</option>
+                                    <option>Bauchi</option><option>Bayelsa</option><option>Benue</option><option>Borno</option>
+                                    <option>Cross River</option><option>Delta</option><option>Ebonyi</option><option>Edo</option>
+                                    <option>Ekiti</option><option>Enugu</option><option>FCT</option><option>Gombe</option>
+                                    <option>Imo</option><option>Jigawa</option><option>Kaduna</option><option>Kano</option>
+                                    <option>Katsina</option><option>Kebbi</option><option>Kogi</option><option>Kwara</option>
+                                    <option>Lagos</option><option>Nasarawa</option><option>Niger</option><option>Ogun</option>
+                                    <option>Ondo</option><option>Osun</option><option>Oyo</option><option>Plateau</option>
+                                    <option>Rivers</option><option>Sokoto</option><option>Taraba</option><option>Yobe</option>
+                                    <option>Zamfara</option>
+                                </select>
+                                <i class="fas fa-map-marker-alt input-icon"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label"><i class="fas fa-lock"></i> Password <span class="required">*</span></label>
+                        <div class="input-wrapper">
+                            <input type="password" class="form-input" id="password" placeholder="Create a strong password" autocomplete="new-password">
+                            <i class="fas fa-lock input-icon"></i>
+                            <i class="fas fa-eye input-icon-right" id="togglePassword"></i>
+                        </div>
+                        <div class="password-strength" id="passwordStrength">
+                            <div class="strength-bar"></div>
+                            <div class="strength-bar"></div>
+                            <div class="strength-bar"></div>
+                            <div class="strength-bar"></div>
+                        </div>
+                        <div class="strength-text" id="strengthText"></div>
+                        <div class="form-error" id="passwordError"><i class="fas fa-exclamation-circle"></i> Min 6 characters required</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label"><i class="fas fa-lock"></i> Confirm Password <span class="required">*</span></label>
+                        <div class="input-wrapper">
+                            <input type="password" class="form-input" id="confirmPassword" placeholder="Confirm your password" autocomplete="new-password">
+                            <i class="fas fa-lock input-icon"></i>
+                            <i class="fas fa-eye input-icon-right" id="toggleConfirmPassword"></i>
+                        </div>
+                        <div class="form-error" id="confirmError"><i class="fas fa-exclamation-circle"></i> Passwords do not match</div>
+                    </div>
+
+                    <div class="form-actions">
+                        <button class="btn btn-ghost" onclick="prevStep(2)"><i class="fas fa-arrow-left"></i> <span class="btn-text">Back</span></button>
+                        <button class="btn btn-primary" onclick="nextStep(2)"><span class="btn-text">Continue</span> <i class="fas fa-arrow-right"></i></button>
+                    </div>
+                </div>
+
+                <!-- STEP 3: EDUCATION LEVELS -->
+                <div class="form-step" id="step3">
+                    <h3 style="font-size:20px;font-weight:700;margin-bottom:6px;">
+                        <i class="fas fa-graduation-cap" style="color:var(--primary);"></i> Education Levels
+                    </h3>
+                    <p style="font-size:14px;color:var(--text-secondary);margin-bottom:8px;">Select up to <strong>2 exam levels</strong> you're preparing for.</p>
+                    <div class="selected-count">Selected: <span id="levelCount">0</span>/2</div>
+
+                    <div class="level-picker" id="levelPicker">
+                        <div class="level-option" data-level="JAMB" onclick="toggleLevel(this)">
+                            <div class="level-check"><i class="fas fa-check"></i></div>
+                            <i class="fas fa-book level-icon"></i>
+                            <div>
+                                <div class="level-text">JAMB</div>
+                            </div>
+                        </div>
+                        <div class="level-option" data-level="WAEC" onclick="toggleLevel(this)">
+                            <div class="level-check"><i class="fas fa-check"></i></div>
+                            <i class="fas fa-pen-nib level-icon"></i>
+                            <div>
+                                <div class="level-text">WAEC</div>
+                            </div>
+                        </div>
+                        <div class="level-option" data-level="NECO" onclick="toggleLevel(this)">
+                            <div class="level-check"><i class="fas fa-check"></i></div>
+                            <i class="fas fa-file-alt level-icon"></i>
+                            <div>
+                                <div class="level-text">NECO</div>
+                            </div>
+                        </div>
+                        <div class="level-option" data-level="POST-UTME" onclick="toggleLevel(this)">
+                            <div class="level-check"><i class="fas fa-check"></i></div>
+                            <i class="fas fa-university level-icon"></i>
+                            <div>
+                                <div class="level-text">POST-UTME</div>
+                            </div>
+                        </div>
+                        <div class="level-option" data-level="UNIVERSITY EXAMS" onclick="toggleLevel(this)" style="grid-column: span 2;">
+                            <div class="level-check"><i class="fas fa-check"></i></div>
+                            <i class="fas fa-hat-wizard level-icon"></i>
+                            <div>
+                                <div class="level-text">University Exams</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="level-hint"><i class="fas fa-info-circle"></i> You can change this later in your settings.</div>
+
+                    <div class="form-error" id="levelError"><i class="fas fa-exclamation-circle"></i> Select at least 1 level</div>
+
+                    <div class="terms-check" id="termsCheck" onclick="toggleTerms()">
+                        <div class="terms-checkbox" id="termsCheckbox"><i class="fas fa-check"></i></div>
+                        <div class="terms-text">
+                            I agree to the <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>. I understand my data will be processed securely.
+                        </div>
+                    </div>
+                    <div class="form-error" id="termsError"><i class="fas fa-exclamation-circle"></i> You must agree to terms</div>
+
+                    <div class="form-actions">
+                        <button class="btn btn-ghost" onclick="prevStep(3)"><i class="fas fa-arrow-left"></i> <span class="btn-text">Back</span></button>
+                        <button class="btn btn-primary" id="registerBtn" onclick="handleRegistration()">
+                            <div class="spinner"></div>
+                            <span class="btn-text"><i class="fas fa-rocket"></i> Create Account</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- STEP 4: PAYMENT (for paid plans) / SUCCESS (for free) -->
+                <div class="form-step" id="step4">
+                    <!-- PAYMENT SECTION (shown for paid plans) -->
+                    <div class="payment-section" id="paymentSection">
+                        <h3 style="font-size:20px;font-weight:700;margin-bottom:6px;">
+                            <i class="fas fa-credit-card" style="color:var(--primary);"></i> Complete Payment
+                        </h3>
+                        <p style="font-size:14px;color:var(--text-secondary);margin-bottom:24px;">Your account has been created! Complete payment to activate your plan.</p>
+
+                        <div class="payment-info-card">
+                            <div class="payment-plan-summary">
+                                <div class="payment-plan-name" id="paymentPlanName">Premium</div>
+                                <div class="payment-plan-amount" id="paymentPlanAmount">₦1,500</div>
+                            </div>
+
+                            <div class="payment-ref">
+                                <i class="fas fa-hashtag"></i>
+                                <div class="payment-ref-info">
+                                    <div class="payment-ref-label">Your Payment Reference</div>
+                                    <div class="payment-ref-code" id="paymentRef">OFJ-XXXXXX</div>
+                                </div>
+                                <button class="copy-btn" onclick="copyToClipboard('paymentRef')" title="Copy">
+                                    <i class="fas fa-copy"></i>
+                                </button>
+                            </div>
+
+                            <div class="bank-details" id="bankDetails">
+                                <!-- Bank details will be loaded from Firebase admin settings -->
+                                <div class="bank-detail-row">
+                                    <div class="bank-label"><i class="fas fa-university"></i> Bank Name</div>
+                                    <div class="bank-value" id="bankName">Loading...</div>
+                                </div>
+                                <div class="bank-detail-row">
+                                    <div class="bank-label"><i class="fas fa-hashtag"></i> Account Number</div>
+                                    <div class="bank-value">
+                                        <span id="accountNumber">Loading...</span>
+                                        <button class="copy-btn" onclick="copyToClipboard('accountNumber')" title="Copy">
+                                            <i class="fas fa-copy"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="bank-detail-row">
+                                    <div class="bank-label"><i class="fas fa-user"></i> Account Name</div>
+                                    <div class="bank-value" id="accountName">Loading...</div>
+                                </div>
+                            </div>
+
+                            <div class="payment-note">
+                                <i class="fas fa-exclamation-triangle"></i>
+                                <div class="payment-note-text">
+                                    <strong>Important:</strong> Use your payment reference <strong id="refInNote">OFJ-XXXXXX</strong> as the transfer description/narration. After payment, click the button below to notify us. Your plan will be activated within <strong>1-24 hours</strong> after admin verification.
+                                </div>
+                            </div>
+                        </div>
+
+                        <button class="btn btn-primary btn-lg btn-block" id="confirmPaymentBtn" onclick="confirmPayment()">
+                            <div class="spinner"></div>
+                            <span class="btn-text"><i class="fas fa-check-circle"></i> I've Made the Payment</span>
+                        </button>
+
+                        <div style="text-align:center;margin-top:16px;">
+                            <a href="dashboard.html" style="color:var(--text-muted);font-size:14px;text-decoration:none;">
+                                <i class="fas fa-arrow-right"></i> Skip for now (use free plan)
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- SUCCESS SECTION (shown for free plan) -->
+                    <div class="payment-section" id="successSection">
+                        <div style="text-align:center;padding:40px 0;">
+                            <div class="modal-icon success" style="margin:0 auto 24px;">
+                                <i class="fas fa-check-circle"></i>
+                            </div>
+                            <h3 style="font-family:'Space Grotesk',sans-serif;font-size:28px;font-weight:800;margin-bottom:12px;">
+                                Welcome to Ofuje! 🎉
+                            </h3>
+                            <p style="font-size:16px;color:var(--text-secondary);margin-bottom:32px;max-width:400px;margin-left:auto;margin-right:auto;line-height:1.7;">
+                                Your account has been created successfully. Start practicing and ace your exams!
+                            </p>
+                            <a href="dashboard.html" class="btn btn-primary btn-lg">
+                                <i class="fas fa-tachometer-alt"></i> Go to Dashboard
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL -->
+    <div class="modal-overlay" id="paymentModal">
+        <div class="modal-card">
+            <div class="modal-icon pending">
+                <i class="fas fa-clock"></i>
+            </div>
+            <h3 class="modal-title">Payment Submitted!</h3>
+            <p class="modal-desc">Your payment notification has been sent to the admin. Your plan will be activated within 1-24 hours after verification.</p>
+            <a href="dashboard.html" class="btn btn-primary btn-lg btn-block">
+                <i class="fas fa-tachometer-alt"></i> Go to Dashboard
+            </a>
+        </div>
+    </div>
+
+    <!-- FIREBASE -->
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+
+    <script>
+        // Firebase Config
+        const firebaseConfig = {
+apiKey: "AIzaSyCQ5LEiCCeBzQNrBNXF2--BE-Cp6p0Q9f0",
+  authDomain: "ofuje-a6c29.firebaseapp.com",
+  projectId: "ofuje-a6c29",
+  storageBucket: "ofuje-a6c29.firebasestorage.app",
+  messagingSenderId: "643585276217",
+  appId: "1:643585276217:web:843900d17d0566a756d0e8"
+        };
+
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+        const auth = firebase.auth();
+
+        // ====== THEME SYSTEM ======
+        const themeToggle = document.getElementById('themeToggle');
+        const html = document.documentElement;
+
+        function setTheme(theme) {
+            html.setAttribute('data-theme', theme);
+            localStorage.setItem('ofuje-theme', theme);
+            const icon = themeToggle.querySelector('i');
+            icon.className = theme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
+        }
+
+        const savedTheme = localStorage.getItem('ofuje-theme') || 'light';
+        setTheme(savedTheme);
+
+        themeToggle.addEventListener('click', () => {
+            const current = html.getAttribute('data-theme');
+            setTheme(current === 'dark' ? 'light' : 'dark');
+        });
+
+        // ====== LOADER ======
+        window.addEventListener('load', () => {
+            setTimeout(() => document.getElementById('loader').classList.add('hidden'), 800);
+        });
+
+        // ====== TOAST ======
+        function showToast(message, type = 'info') {
+            const container = document.getElementById('toastContainer');
+            const icons = { success: 'fa-check-circle', error: 'fa-exclamation-circle', info: 'fa-info-circle', warning: 'fa-exclamation-triangle' };
+            const toast = document.createElement('div');
+            toast.className = `toast toast-${type}`;
+            toast.innerHTML = `<div class="toast-icon"><i class="fas ${icons[type]}"></i></div><div class="toast-message">${message}</div>`;
+            container.appendChild(toast);
+            setTimeout(() => { toast.style.opacity = '0'; toast.style.transform = 'translateX(100px)'; setTimeout(() => toast.remove(), 300); }, 4000);
+        }
+
+        // ====== STATE VARIABLES ======
+        let currentStep = 1;
+        let selectedPlan = null;
+        let selectedLevels = [];
+        let termsAccepted = false;
+
+        // Check URL params for pre-selected plan
+        const urlParams = new URLSearchParams(window.location.search);
+        const urlPlan = urlParams.get('plan');
+        if (urlPlan) {
+            const planCard = document.querySelector(`.plan-card[data-plan="${urlPlan}"]`);
+            if (planCard) selectPlan(planCard);
+        }
+
+        // ====== PLAN SELECTION ======
+        function selectPlan(card) {
+            document.querySelectorAll('.plan-card').forEach(c => c.classList.remove('selected'));
+            card.classList.add('selected');
+            selectedPlan = card.dataset.plan;
+            document.getElementById('planError').classList.remove('show');
+        }
+
+        // ====== LEVEL SELECTION ======
+        function toggleLevel(option) {
+            const level = option.dataset.level;
+
+            if (option.classList.contains('selected')) {
+                option.classList.remove('selected');
+                selectedLevels = selectedLevels.filter(l => l !== level);
+            } else {
+                if (selectedLevels.length >= 2) {
+                    showToast('You can only select up to 2 levels', 'warning');
+                    return;
+                }
+                option.classList.add('selected');
+                selectedLevels.push(level);
+            }
+
+            document.getElementById('levelCount').textContent = selectedLevels.length;
+            document.getElementById('levelError').classList.remove('show');
+
+            // Disable/enable options
+            const options = document.querySelectorAll('.level-option');
+            options.forEach(opt => {
+                if (!opt.classList.contains('selected') && selectedLevels.length >= 2) {
+                    opt.classList.add('disabled');
+                } else {
+                    opt.classList.remove('disabled');
+                }
+            });
+        }
+
+        // ====== TERMS ======
+        function toggleTerms() {
+            termsAccepted = !termsAccepted;
+            document.getElementById('termsCheckbox').classList.toggle('checked', termsAccepted);
+            document.getElementById('termsError').classList.remove('show');
+        }
+
+        // ====== PASSWORD TOGGLE ======
+        document.getElementById('togglePassword').addEventListener('click', function() {
+            const input = document.getElementById('password');
+            if (input.type === 'password') { input.type = 'text'; this.className = 'fas fa-eye-slash input-icon-right'; }
+            else { input.type = 'password'; this.className = 'fas fa-eye input-icon-right'; }
+        });
+
+        document.getElementById('toggleConfirmPassword').addEventListener('click', function() {
+            const input = document.getElementById('confirmPassword');
+            if (input.type === 'password') { input.type = 'text'; this.className = 'fas fa-eye-slash input-icon-right'; }
+            else { input.type = 'password'; this.className = 'fas fa-eye input-icon-right'; }
+        });
+
+        // ====== PASSWORD STRENGTH ======
+        document.getElementById('password').addEventListener('input', function() {
+            const val = this.value;
+            const bars = document.querySelectorAll('.strength-bar');
+            const text = document.getElementById('strengthText');
+            let score = 0;
+            if (val.length >= 6) score++;
+            if (val.length >= 8) score++;
+            if (/[A-Z]/.test(val) && /[a-z]/.test(val)) score++;
+            if (/[0-9]/.test(val) && /[^a-zA-Z0-9]/.test(val)) score++;
+
+            bars.forEach((bar, i) => {
+                bar.classList.remove('active', 'weak', 'medium', 'strong');
+                if (i < score) {
+                    bar.classList.add('active');
+                    if (score <= 1) bar.classList.add('weak');
+                    else if (score <= 2) bar.classList.add('medium');
+                    else bar.classList.add('strong');
+                }
+            });
+
+            text.className = 'strength-text';
+            if (val.length === 0) { text.textContent = ''; }
+            else if (score <= 1) { text.textContent = 'Weak password'; text.classList.add('weak'); }
+            else if (score <= 2) { text.textContent = 'Medium strength'; text.classList.add('medium'); }
+            else { text.textContent = 'Strong password'; text.classList.add('strong'); }
+        });
+
+        // ====== STEP NAVIGATION ======
+        function updateStepUI() {
+            document.querySelectorAll('.form-step').forEach(s => s.classList.remove('active'));
+            document.getElementById(`step${currentStep}`).classList.add('active');
+
+            document.querySelectorAll('.step-dot').forEach((dot, i) => {
+                const stepNum = i + 1;
+                dot.classList.remove('active', 'completed');
+                if (stepNum === currentStep) dot.classList.add('active');
+                else if (stepNum < currentStep) dot.classList.add('completed');
+            });
+
+            document.querySelectorAll('.step-line').forEach((line, i) => {
+                line.classList.toggle('completed', i + 1 < currentStep);
+            });
+        }
+
+        function nextStep(from) {
+            if (from === 1) {
+                if (!selectedPlan) {
+                    document.getElementById('planError').classList.add('show');
+                    return;
+                }
+            }
+            if (from === 2) {
+                if (!validateStep2()) return;
+            }
+            currentStep = from + 1;
+            updateStepUI();
+            window.scrollTo(0, 0);
+        }
+
+        function prevStep(to) {
+            currentStep = to - 1;
+            updateStepUI();
+            window.scrollTo(0, 0);
+        }
+
+        // ====== VALIDATE STEP 2 ======
+        function validateStep2() {
+            let valid = true;
+            const name = document.getElementById('fullName').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const phone = document.getElementById('phone').value.trim();
+            const age = document.getElementById('age').value;
+            const password = document.getElementById('password').value;
+            const confirm = document.getElementById('confirmPassword').value;
+
+            // Reset errors
+            ['nameError', 'emailError', 'phoneError', 'ageError', 'passwordError', 'confirmError'].forEach(id => {
+                document.getElementById(id).classList.remove('show');
+            });
+
+            if (!name || name.length < 3) { document.getElementById('nameError').classList.add('show'); valid = false; }
+            if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { document.getElementById('emailError').classList.add('show'); valid = false; }
+            if (!phone || phone.length < 10) { document.getElementById('phoneError').classList.add('show'); valid = false; }
+            if (!age || age < 10 || age > 60) { document.getElementById('ageError').classList.add('show'); valid = false; }
+            if (!password || password.length < 6) { document.getElementById('passwordError').classList.add('show'); valid = false; }
+            if (password !== confirm) { document.getElementById('confirmError').classList.add('show'); valid = false; }
+
+            return valid;
+        }
+
+        // ====== REGISTRATION ======
+        async function handleRegistration() {
+            if (selectedLevels.length === 0) {
+                document.getElementById('levelError').classList.add('show');
+                return;
+            }
+            if (!termsAccepted) {
+                document.getElementById('termsError').classList.add('show');
+                return;
+            }
+
+            const btn = document.getElementById('registerBtn');
+            btn.classList.add('loading');
+            btn.disabled = true;
+
+            const name = document.getElementById('fullName').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const phone = document.getElementById('phone').value.trim();
+            const age = parseInt(document.getElementById('age').value);
+            const state = document.getElementById('state').value;
+            const password = document.getElementById('password').value;
+
+            try {
+                // Create Firebase Auth user
+                const userCredential = await auth.createUserWithEmailAndPassword(email, password);
+                const user = userCredential.user;
+
+                // Update display name
+                await user.updateProfile({ displayName: name });
+
+                // Generate payment reference
+                const payRef = 'OFJ-' + Math.random().toString(36).substr(2, 6).toUpperCase();
+
+                // Determine plan status
+                const isPaid = selectedPlan !== 'free';
+                const planAmount = selectedPlan === 'premium' ? 1500 : selectedPlan === 'premiumplus' ? 3000 : 0;
+
+                // Create user document in Firestore
+                const userData = {
+                    uid: user.uid,
+                    fullName: name,
+                    email: email,
+                    phone: phone,
+                    age: age,
+                    state: state || '',
+                    profilePhoto: '',
+                    selectedPlan: selectedPlan,
+                    planStatus: isPaid ? 'pending' : 'active',
+                    planAmount: planAmount,
+                    paymentRef: isPaid ? payRef : '',
+                    paymentDate: null,
+                    paymentVerified: !isPaid,
+                    educationLevels: selectedLevels,
+                    xp: 0,
+                    level: 'Student',
+                    streak: 0,
+                    longestStreak: 0,
+                    lastActiveDate: null,
+                    streakFreezes: selectedPlan === 'premiumplus' ? 3 : 0,
+                    totalTestsTaken: 0,
+                    totalQuestionsAnswered: 0,
+                    totalCorrectAnswers: 0,
+                    badges: [],
+                    achievements: [],
+                    questionsUsed: 0,
+                    questionsResetTime: null,
+                    createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+                    updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
+                    role: 'user'
+                };
+
+                await db.collection('users').doc(user.uid).set(userData);
+
+                // If paid plan, create payment record
+                if (isPaid) {
+                    await db.collection('payments').add({
+                        userId: user.uid,
+                        userName: name,
+                        userEmail: email,
+                        userPhone: phone,
+                        plan: selectedPlan,
+                        amount: planAmount,
+                        reference: payRef,
+                        status: 'pending',
+                        method: 'bank_transfer',
+                        confirmedByUser: false,
+                        verifiedByAdmin: false,
+                        createdAt: firebase.firestore.FieldValue.serverTimestamp()
+                    });
+                }
+
+                // Send email verification
+                await user.sendEmailVerification();
+
+                showToast('Account created successfully! 🎉', 'success');
+
+                // Show next step
+                currentStep = 4;
+                updateStepUI();
+
+                if (isPaid) {
+                    document.getElementById('paymentSection').classList.add('active');
+                    document.getElementById('successSection').classList.remove('active');
+
+                    // Set payment details
+                    const planNames = { premium: 'Premium', premiumplus: 'Premium++' };
+                    const planAmounts = { premium: '₦1,500', premiumplus: '₦3,000' };
+                    document.getElementById('paymentPlanName').textContent = planNames[selectedPlan];
+                    document.getElementById('paymentPlanAmount').textContent = planAmounts[selectedPlan];
+                    document.getElementById('paymentRef').textContent = payRef;
+                    document.getElementById('refInNote').textContent = payRef;
+
+                    // Load bank details from Firebase
+                    loadBankDetails();
+                } else {
+                    document.getElementById('paymentSection').classList.remove('active');
+                    document.getElementById('successSection').classList.add('active');
+                }
+
+            } catch (error) {
+                console.error('Registration error:', error);
+                let errorMsg = 'Registration failed. Please try again.';
+                if (error.code === 'auth/email-already-in-use') errorMsg = 'This email is already registered. Please login instead.';
+                else if (error.code === 'auth/weak-password') errorMsg = 'Password is too weak. Use at least 6 characters.';
+                else if (error.code === 'auth/invalid-email') errorMsg = 'Invalid email address.';
+                showToast(errorMsg, 'error');
+            } finally {
+                btn.classList.remove('loading');
+                btn.disabled = false;
+            }
+        }
+
+        // ====== LOAD BANK DETAILS FROM FIREBASE ======
+        async function loadBankDetails() {
+            try {
+                const settingsDoc = await db.collection('settings').doc('payment').get();
+                if (settingsDoc.exists) {
+                    const data = settingsDoc.data();
+                    document.getElementById('bankName').textContent = data.bankName || 'Not set';
+                    document.getElementById('accountNumber').textContent = data.accountNumber || 'Not set';
+                    document.getElementById('accountName').textContent = data.accountName || 'Not set';
+                } else {
+                    document.getElementById('bankName').textContent = 'Contact admin';
+                    document.getElementById('accountNumber').textContent = 'Contact admin';
+                    document.getElementById('accountName').textContent = 'Contact admin';
+                }
+            } catch (err) {
+                console.error('Error loading bank details:', err);
+                document.getElementById('bankName').textContent = 'Error loading';
+                document.getElementById('accountNumber').textContent = 'Error loading';
+                document.getElementById('accountName').textContent = 'Error loading';
+            }
+        }
+
+        // ====== COPY TO CLIPBOARD ======
+        function copyToClipboard(elementId) {
+            const text = document.getElementById(elementId).textContent;
+            navigator.clipboard.writeText(text).then(() => {
+                showToast('Copied to clipboard!', 'success');
+                // Find the copy button near this element and flash it
+                const el = document.getElementById(elementId);
+                const btn = el.closest('.bank-detail-row')?.querySelector('.copy-btn') || el.parentElement.querySelector('.copy-btn');
+                if (btn) {
+                    btn.classList.add('copied');
+                    setTimeout(() => btn.classList.remove('copied'), 2000);
+                }
+            }).catch(() => {
+                // Fallback
+                const input = document.createElement('input');
+                input.value = text;
+                document.body.appendChild(input);
+                input.select();
+                document.execCommand('copy');
+                document.body.removeChild(input);
+                showToast('Copied to clipboard!', 'success');
+            });
+        }
+
+        // ====== CONFIRM PAYMENT ======
+        async function confirmPayment() {
+            const btn = document.getElementById('confirmPaymentBtn');
+            btn.classList.add('loading');
+            btn.disabled = true;
+
+            try {
+                const user = auth.currentUser;
+                if (!user) throw new Error('Not authenticated');
+
+                // Update payment record
+                const paymentsSnap = await db.collection('payments')
+                    .where('userId', '==', user.uid)
+                    .where('status', '==', 'pending')
+                    .limit(1)
+                    .get();
+
+                if (!paymentsSnap.empty) {
+                    await paymentsSnap.docs[0].ref.update({
+                        confirmedByUser: true,
+                        userConfirmedAt: firebase.firestore.FieldValue.serverTimestamp()
+                    });
+                }
+
+                // Update user record
+                await db.collection('users').doc(user.uid).update({
+                    paymentDate: firebase.firestore.FieldValue.serverTimestamp()
+                });
+
+                // Show success modal
+                document.getElementById('paymentModal').classList.add('active');
+                showToast('Payment notification sent to admin! 🎉', 'success');
+
+            } catch (error) {
+                console.error('Payment confirmation error:', error);
+                showToast('Error submitting payment. Please try again.', 'error');
+            } finally {
+                btn.classList.remove('loading');
+                btn.disabled = false;
+            }
+        }
+
+        // ====== LOAD STATS FOR LEFT PANEL ======
+        async function loadSideStats() {
+            try {
+                const usersSnap = await db.collection('users').get();
+                document.getElementById('leftStatUsers').textContent = usersSnap.size + '+';
+                const testsSnap = await db.collection('tests').get();
+                document.getElementById('leftStatTests').textContent = testsSnap.size + '+';
+            } catch (e) {
+                document.getElementById('leftStatUsers').textContent = '0+';
+                document.getElementById('leftStatTests').textContent = '0+';
+            }
+        }
+        loadSideStats();
+
+        // ====== CHECK IF ALREADY LOGGED IN ======
+        auth.onAuthStateChanged(user => {
+            if (user) {
+                // If already logged in and not in step 4, redirect to dashboard
+                if (currentStep < 4) {
+                    // Allow them to stay and re-register or redirect
+                }
+            }
+        });
+    </script>
+</body>
+</html>
