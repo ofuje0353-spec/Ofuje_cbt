@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Profile - Ofuje CBT Platform</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root{--primary:#6C3CE1;--pl:#8B5CF6;--secondary:#F59E0B;--accent:#10B981;--danger:#EF4444;--info:#3B82F6;--bg:#FFF;--bg2:#F8FAFC;--card:#FFF;--text:#0F172A;--t2:#64748B;--muted:#94A3B8;--border:#E2E8F0;--sh:0 4px 20px rgba(108,60,225,.1);--shx:0 20px 50px rgba(108,60,225,.15);--r:14px;--rs:8px;--rf:50px;--grad:linear-gradient(135deg,#6C3CE1,#8B5CF6,#A78BFA);--gw:linear-gradient(135deg,#F59E0B,#F97316);--gc:linear-gradient(135deg,#10B981,#06B6D4);--gd:linear-gradient(135deg,#EF4444,#F97316);--tr:all .3s cubic-bezier(.4,0,.2,1);--trB:all .4s cubic-bezier(.68,-.55,.265,1.55);--trS:all .5s cubic-bezier(.25,.8,.25,1);--sbW:240px;--tbH:56px;}
+        [data-theme="dark"]{--bg:#0F0F1A;--bg2:#1A1A2E;--card:#1E1E32;--text:#F1F5F9;--t2:#94A3B8;--muted:#64748B;--border:#2D2D44;--sh:0 4px 20px rgba(0,0,0,.3);--shx:0 20px 50px rgba(0,0,0,.4);}
+        *{margin:0;padding:0;box-sizing:border-box;}html{font-size:16px;}body{font-family:'Inter',sans-serif;background:var(--bg2);color:var(--text);min-height:100vh;min-height:100dvh;overflow-x:hidden;-webkit-tap-highlight-color:transparent;line-height:1.5;}
+        ::-webkit-scrollbar{width:4px;}::-webkit-scrollbar-track{background:var(--bg2);}::-webkit-scrollbar-thumb{background:var(--primary);border-radius:2px;}
+        @keyframes spin{to{transform:rotate(360deg)}}@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}@keyframes fadeIn{from{opacity:0}to{opacity:1}}@keyframes popIn{0%{opacity:0;transform:scale(.7)}70%{transform:scale(1.05)}100%{opacity:1;transform:scale(1)}}@keyframes slideR{from{opacity:0;transform:translateX(60px)}to{opacity:1;transform:translateX(0)}}@keyframes scaleIn{from{opacity:0;transform:scale(.88)}to{opacity:1;transform:scale(1)}}@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.08)}}@keyframes modIn{from{opacity:0;transform:scale(.9) translateY(20px)}to{opacity:1;transform:scale(1) translateY(0)}}
+
+        .loader{position:fixed;inset:0;background:var(--bg);z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;transition:opacity .6s;}.loader.hidden{opacity:0;pointer-events:none;}.loader-ring{width:44px;height:44px;border:3px solid var(--border);border-top-color:var(--primary);border-radius:50%;animation:spin .8s linear infinite;}.loader-brand{font-family:'Space Grotesk',sans-serif;font-weight:800;font-size:22px;background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+        .toast-stack{position:fixed;top:calc(var(--tbH)+8px);right:12px;z-index:7000;display:flex;flex-direction:column;gap:6px;max-width:calc(100vw - 24px);}.toast{background:var(--card);border:1px solid var(--border);border-radius:var(--rs);padding:10px 14px;display:flex;align-items:center;gap:8px;box-shadow:var(--sh);animation:slideR .35s;max-width:300px;transition:var(--tr);}.toast:hover{transform:translateX(-3px);}.ti{width:26px;height:26px;border-radius:6px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:12px;}.toast-success .ti{background:rgba(16,185,129,.12);color:var(--accent);}.toast-error .ti{background:rgba(239,68,68,.12);color:var(--danger);}.toast-info .ti{background:rgba(59,130,246,.12);color:var(--info);}.toast-warn .ti{background:rgba(245,158,11,.12);color:var(--secondary);}.toast .tt{font-weight:700;font-size:11px;}.toast .tm{font-size:9px;color:var(--t2);}
+
+        /* SIDEBAR */
+        .sidebar{position:fixed;top:0;left:0;bottom:0;width:var(--sbW);background:var(--card);border-right:1px solid var(--border);display:flex;flex-direction:column;z-index:500;transition:transform .35s cubic-bezier(.4,0,.2,1);overflow-y:auto;overflow-x:hidden;}
+        .sb-head{padding:12px;display:flex;align-items:center;gap:8px;border-bottom:1px solid var(--border);min-height:var(--tbH);flex-shrink:0;}.sb-logo{display:flex;align-items:center;gap:7px;text-decoration:none;font-family:'Space Grotesk',sans-serif;font-weight:800;font-size:17px;color:var(--text);overflow:hidden;white-space:nowrap;}.sb-logo-ic{width:30px;height:30px;flex-shrink:0;background:var(--grad);border-radius:7px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:13px;}
+        .sb-user{padding:10px 12px;display:flex;align-items:center;gap:8px;border-bottom:1px solid var(--border);overflow:hidden;flex-shrink:0;}.sb-avi{width:34px;height:34px;border-radius:10px;flex-shrink:0;background:var(--grad);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:13px;position:relative;overflow:hidden;}.sb-avi img{width:100%;height:100%;object-fit:cover;}.sb-dot{position:absolute;bottom:-1px;right:-1px;width:10px;height:10px;border-radius:50%;background:var(--accent);border:2px solid var(--card);}.sb-uinfo{overflow:hidden;min-width:0;}.sb-uname{font-weight:700;font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}.sb-plan{font-size:9px;font-weight:600;padding:1px 6px;border-radius:6px;display:inline-block;margin-top:1px;}.p-free{background:rgba(100,116,139,.12);color:var(--t2);}.p-premium{background:rgba(108,60,225,.12);color:var(--primary);}.p-premiumplus{background:rgba(245,158,11,.12);color:var(--secondary);}
+        .sb-xp{padding:8px 12px;border-bottom:1px solid var(--border);flex-shrink:0;}.xp-lbl{font-size:9px;color:var(--muted);font-weight:600;margin-bottom:3px;display:flex;justify-content:space-between;}.xp-trk{height:4px;background:var(--border);border-radius:2px;overflow:hidden;}.xp-fill{height:100%;background:var(--grad);border-radius:2px;transition:width .6s ease;}.xp-lvl{font-size:10px;font-weight:700;color:var(--primary);margin-top:3px;}
+        .sb-nav{flex:1;padding:6px;display:flex;flex-direction:column;gap:1px;overflow-y:auto;}.sb-sec{font-size:8px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.6px;padding:8px 8px 3px;}.sb-item{display:flex;align-items:center;gap:8px;padding:8px 10px;border-radius:7px;text-decoration:none;color:var(--t2);font-weight:500;font-size:12px;transition:var(--tr);cursor:pointer;position:relative;white-space:nowrap;}.sb-item:hover{background:rgba(108,60,225,.07);color:var(--primary);}.sb-item.active{background:rgba(108,60,225,.12);color:var(--primary);font-weight:700;}.sb-item.active::before{content:'';position:absolute;left:0;top:25%;bottom:25%;width:3px;background:var(--primary);border-radius:0 2px 2px 0;}.sb-item i{width:16px;text-align:center;font-size:13px;flex-shrink:0;}
+
+        .main{margin-left:var(--sbW);min-height:100vh;min-height:100dvh;transition:margin-left .35s;display:flex;flex-direction:column;}
+        .topbar{position:sticky;top:0;z-index:400;height:var(--tbH);background:var(--card);border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 16px;gap:10px;flex-shrink:0;}.topbar-left{flex:1;display:flex;align-items:center;gap:10px;min-width:0;}.mob-btn{display:none;width:34px;height:34px;border:1px solid var(--border);border-radius:7px;background:var(--bg2);color:var(--text);cursor:pointer;font-size:14px;align-items:center;justify-content:center;transition:var(--tr);flex-shrink:0;}.mob-btn:hover{border-color:var(--primary);color:var(--primary);}.topbar-title{font-family:'Space Grotesk',sans-serif;font-weight:800;font-size:15px;display:flex;align-items:center;gap:6px;}.topbar-title i{color:var(--primary);}.topbar-right{display:flex;align-items:center;gap:6px;flex-shrink:0;}
+        .tb{width:32px;height:32px;border-radius:7px;border:1px solid var(--border);background:var(--bg2);color:var(--text);cursor:pointer;font-size:13px;display:flex;align-items:center;justify-content:center;transition:var(--tr);flex-shrink:0;}.tb:hover{border-color:var(--primary);color:var(--primary);transform:scale(1.06);}.tb:active{transform:scale(.94);}
+        .sb-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:499;}.sb-overlay.show{display:block;}
+        .content{padding:clamp(12px,3vw,20px);flex:1;max-width:1000px;margin:0 auto;width:100%;}
+
+        /* BUTTONS */
+        .btn{display:inline-flex;align-items:center;justify-content:center;gap:5px;padding:9px 16px;border-radius:var(--rf);font-weight:700;font-size:11px;text-decoration:none;transition:var(--tr);cursor:pointer;border:none;font-family:'Inter',sans-serif;position:relative;overflow:hidden;user-select:none;white-space:nowrap;}.btn::after{content:'';position:absolute;inset:0;background:radial-gradient(circle,rgba(255,255,255,.3) 10%,transparent 10%);transform:scale(0);opacity:0;transition:transform .5s,opacity .5s;}.btn:active::after{transform:scale(10);opacity:0;transition:0s;}
+        .btn-ghost{background:transparent;color:var(--text);border:1px solid var(--border);}.btn-ghost:hover{border-color:var(--primary);color:var(--primary);}
+        .btn-primary{background:var(--grad);color:#fff;box-shadow:0 3px 10px rgba(108,60,225,.3);}.btn-primary:hover:not(:disabled){transform:translateY(-1px);}.btn-primary:disabled{opacity:.5;cursor:not-allowed;transform:none;}
+        .btn-danger{background:var(--gd);color:#fff;}.btn-success{background:var(--gc);color:#fff;}.btn-warm{background:var(--gw);color:#fff;}
+        .btn-block{width:100%;}.btn-lg{padding:12px 20px;font-size:13px;}
+        .btn .spin{width:12px;height:12px;border:2px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:spin .7s linear infinite;display:none;}.btn.loading .spin{display:block;}.btn.loading .bl{display:none;}
+
+        /* HERO */
+        .profile-hero{background:var(--grad);border-radius:var(--r);padding:clamp(18px,4vw,28px);margin-bottom:16px;position:relative;overflow:hidden;display:flex;align-items:center;gap:clamp(14px,3vw,22px);animation:fadeUp .5s;}
+        .profile-hero::before{content:'';position:absolute;top:-50px;right:-50px;width:200px;height:200px;border-radius:50%;background:rgba(255,255,255,.06);animation:float 6s infinite;}
+        .ph-avi-wrap{position:relative;flex-shrink:0;z-index:1;cursor:pointer;}.ph-avi{width:clamp(64px,14vw,84px);height:clamp(64px,14vw,84px);border-radius:clamp(16px,3vw,20px);background:rgba(255,255,255,.2);border:3px solid rgba(255,255,255,.4);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:800;font-size:clamp(22px,5vw,30px);overflow:hidden;transition:var(--tr);}.ph-avi:hover{border-color:#fff;transform:scale(1.03);}.ph-avi img{width:100%;height:100%;object-fit:cover;}
+        .ph-camera{position:absolute;bottom:-4px;right:-4px;width:28px;height:28px;border-radius:50%;background:#fff;color:var(--primary);display:flex;align-items:center;justify-content:center;font-size:12px;cursor:pointer;box-shadow:0 2px 6px rgba(0,0,0,.2);transition:var(--tr);}.ph-camera:hover{transform:scale(1.1);}
+        .ph-info{flex:1;position:relative;z-index:1;min-width:0;}.ph-name{font-family:'Space Grotesk',sans-serif;font-size:clamp(16px,3vw,22px);font-weight:800;color:#fff;margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}.ph-email{color:rgba(255,255,255,.8);font-size:clamp(10px,2vw,12px);margin-bottom:8px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+        .ph-chips{display:flex;gap:5px;flex-wrap:wrap;}.ph-chip{display:flex;align-items:center;gap:3px;padding:4px 9px;border-radius:var(--rf);background:rgba(255,255,255,.15);color:#fff;font-size:10px;font-weight:600;}
+        .ph-right{position:relative;z-index:1;flex-shrink:0;text-align:right;}.ph-rank{font-family:'Space Grotesk',sans-serif;font-size:clamp(20px,5vw,26px);font-weight:800;color:#fff;}.ph-rank-lbl{font-size:10px;color:rgba(255,255,255,.7);}.ph-plan-badge{padding:5px 12px;background:rgba(255,255,255,.15);border-radius:var(--rf);color:#fff;font-size:10px;font-weight:700;margin-top:6px;display:inline-block;}
+
+        /* TABS */
+        .profile-tabs{display:flex;gap:0;background:var(--card);border:1px solid var(--border);border-radius:var(--rs);padding:4px;margin-bottom:16px;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch;flex-shrink:0;}.profile-tabs::-webkit-scrollbar{display:none;}
+        .ptab{flex:1;min-width:fit-content;padding:8px 12px;border:none;border-radius:6px;background:transparent;font-family:'Inter',sans-serif;font-size:11px;font-weight:600;color:var(--t2);cursor:pointer;transition:var(--tr);display:flex;align-items:center;justify-content:center;gap:5px;white-space:nowrap;}.ptab:hover{color:var(--primary);}.ptab.active{background:var(--grad);color:#fff;box-shadow:0 3px 10px rgba(108,60,225,.25);}
+
+        .tab-content{display:none;animation:fadeUp .3s;}.tab-content.active{display:block;}
+
+        /* CARD */
+        .card{background:var(--card);border:1px solid var(--border);border-radius:var(--rs);overflow:hidden;margin-bottom:14px;transition:var(--tr);}.card:hover{box-shadow:0 2px 10px rgba(0,0,0,.04);}
+        .card-hd{padding:12px 14px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;}.card-ttl{font-weight:700;font-size:13px;display:flex;align-items:center;gap:6px;}.card-ttl i{color:var(--primary);font-size:13px;}.card-body{padding:14px;}
+
+        /* FORM */
+        .fg{margin-bottom:14px;}.fl{display:flex;align-items:center;gap:4px;font-weight:600;font-size:11px;margin-bottom:5px;}.fl i{color:var(--primary);font-size:11px;}
+        .input-wrap{position:relative;}.input-wrap .ii{position:absolute;left:12px;top:50%;transform:translateY(-50%);color:var(--muted);font-size:13px;pointer-events:none;}.input-wrap .fi:focus~.ii{color:var(--primary);}
+        .fi,.fs{width:100%;padding:10px 12px 10px 38px;border:2px solid var(--border);border-radius:var(--rs);background:var(--bg);color:var(--text);font-size:12px;font-family:'Inter',sans-serif;transition:var(--tr);outline:none;}.fi:focus,.fs:focus{border-color:var(--primary);box-shadow:0 0 0 3px rgba(108,60,225,.08);}
+        .fs{appearance:none;cursor:pointer;}
+        .fr{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+        .fhint{font-size:9px;color:var(--muted);margin-top:3px;display:flex;align-items:center;gap:3px;}
+        .eye-btn{position:absolute;right:12px;top:50%;transform:translateY(-50%);color:var(--muted);cursor:pointer;font-size:13px;z-index:1;transition:var(--tr);}.eye-btn:hover{color:var(--primary);}
+
+        /* STRENGTH */
+        .strength-bars{display:flex;gap:3px;margin-top:5px;}.sbar{flex:1;height:3px;background:var(--border);border-radius:2px;transition:var(--tr);}.sbar.w{background:var(--danger);}.sbar.m{background:var(--secondary);}.sbar.s{background:var(--accent);}
+        .strength-text{font-size:9px;font-weight:600;margin-top:3px;}
+
+        /* LEVEL PICKER */
+        .level-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:8px;}.level-opt{border:2px solid var(--border);border-radius:var(--rs);padding:12px;cursor:pointer;transition:var(--tr);display:flex;align-items:center;gap:8px;}.level-opt:hover{border-color:var(--pl);}.level-opt.selected{border-color:var(--primary);background:rgba(108,60,225,.06);}.level-opt.disabled{opacity:.3;cursor:not-allowed;pointer-events:none;}.level-check{width:18px;height:18px;border-radius:5px;border:2px solid var(--border);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:9px;color:transparent;transition:var(--tr);}.level-opt.selected .level-check{border-color:var(--primary);background:var(--primary);color:#fff;}.level-icon{font-size:16px;color:var(--primary);}.level-name{font-weight:600;font-size:11px;}
+
+        /* BADGES */
+        .badges-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:10px;}.badge-full{background:var(--bg2);border:1px solid var(--border);border-radius:var(--rs);padding:14px 10px;text-align:center;transition:var(--tr);}.badge-full.earned{border-color:rgba(108,60,225,.2);background:rgba(108,60,225,.04);}.badge-full.locked{opacity:.35;filter:grayscale(.8);}.badge-full:hover{transform:translateY(-2px);box-shadow:var(--sh);}.badge-emoji-lg{font-size:32px;display:block;margin-bottom:6px;}.badge-name-lg{font-weight:700;font-size:11px;margin-bottom:2px;}.badge-desc-sm{font-size:9px;color:var(--muted);line-height:1.3;}
+
+        /* HISTORY */
+        .hist-item{display:flex;align-items:center;gap:12px;padding:12px;border:1px solid var(--border);border-radius:var(--rs);margin-bottom:8px;transition:var(--tr);}.hist-item:hover{border-color:var(--pl);}.hist-icon{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:17px;color:#fff;flex-shrink:0;}.hist-info{flex:1;min-width:0;}.hist-name{font-weight:700;font-size:12px;margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}.hist-meta{font-size:10px;color:var(--muted);display:flex;gap:8px;flex-wrap:wrap;}.hist-meta span{display:flex;align-items:center;gap:3px;}.hist-right{text-align:right;flex-shrink:0;}.hist-score{font-family:'Space Grotesk',sans-serif;font-weight:800;font-size:18px;}.hist-xp{font-size:10px;color:var(--primary);font-weight:600;}.hist-bar{height:3px;background:var(--border);border-radius:2px;margin-top:3px;width:60px;overflow:hidden;}.hist-bar-fill{height:100%;border-radius:2px;}
+
+        /* PLAN CARDS */
+        .plan-cards-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;}
+        .plan-card-opt{border:2px solid var(--border);border-radius:var(--rs);padding:18px;transition:var(--tr);position:relative;overflow:hidden;}.plan-card-opt.current{border-color:var(--primary);background:rgba(108,60,225,.03);}.plan-card-opt.current::before{content:'✓ Current';position:absolute;top:10px;right:10px;font-size:8px;font-weight:700;color:var(--accent);background:rgba(16,185,129,.1);padding:2px 8px;border-radius:var(--rf);}.plan-card-opt:hover:not(.current){border-color:var(--pl);transform:translateY(-2px);box-shadow:var(--sh);}
+        .plan-icon{width:40px;height:40px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:18px;margin-bottom:10px;}.plan-price-big{font-family:'Space Grotesk',sans-serif;font-size:24px;font-weight:800;margin-bottom:2px;color:var(--primary);}.plan-period{font-size:10px;color:var(--muted);margin-bottom:10px;}
+        .plan-feat-list{list-style:none;display:flex;flex-direction:column;gap:5px;margin-bottom:14px;}.plan-feat-list li{font-size:11px;color:var(--t2);display:flex;align-items:center;gap:6px;}.plan-feat-list li i{font-size:10px;}.plan-feat-list li i.fa-check{color:var(--accent);}.plan-feat-list li i.fa-times{color:var(--muted);}
+
+        /* PAYMENT MODAL */
+        .modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);backdrop-filter:blur(8px);z-index:6000;align-items:center;justify-content:center;padding:16px;overflow-y:auto;}.modal.open{display:flex;animation:fadeIn .2s;}
+        .modal-box{background:var(--card);border-radius:var(--r);width:100%;max-width:440px;box-shadow:var(--shx);overflow:hidden;animation:modIn .35s;margin:auto;}
+        .modal-hd{padding:14px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;}.modal-tt{font-family:'Space Grotesk',sans-serif;font-weight:800;font-size:16px;display:flex;align-items:center;gap:6px;}.modal-tt i{color:var(--primary);}.modal-x{width:28px;height:28px;border-radius:7px;border:1px solid var(--border);background:var(--bg2);color:var(--text);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:13px;transition:var(--tr);}.modal-x:hover{border-color:var(--danger);color:var(--danger);transform:rotate(90deg);}
+        .modal-bd{padding:16px;}.modal-ft{padding:12px 16px;border-top:1px solid var(--border);display:flex;gap:8px;}.modal-ft .btn{flex:1;}
+
+        .pay-summary{display:flex;align-items:center;justify-content:space-between;padding:12px;background:var(--bg2);border-radius:var(--rs);margin-bottom:12px;}.pay-plan-name{font-weight:700;font-size:14px;}.pay-amount{font-family:'Space Grotesk',sans-serif;font-weight:800;font-size:20px;color:var(--primary);}
+        .pay-ref-box{display:flex;align-items:center;gap:8px;padding:10px;background:rgba(108,60,225,.06);border:1px solid rgba(108,60,225,.12);border-radius:var(--rs);margin-bottom:10px;}.pay-ref-code{font-family:'Space Grotesk',sans-serif;font-weight:800;font-size:16px;color:var(--primary);letter-spacing:1px;flex:1;}
+        .copy-btn{width:26px;height:26px;border-radius:6px;border:1px solid var(--border);background:var(--card);color:var(--muted);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:10px;transition:var(--tr);flex-shrink:0;}.copy-btn:hover{color:var(--primary);border-color:var(--primary);}
+        .bank-row{display:flex;align-items:center;justify-content:space-between;padding:7px 0;border-bottom:1px solid var(--border);font-size:12px;}.bank-row:last-child{border-bottom:none;}.bank-lbl{color:var(--t2);display:flex;align-items:center;gap:4px;font-size:11px;}.bank-lbl i{color:var(--primary);}.bank-val{font-weight:700;font-size:11px;display:flex;align-items:center;gap:4px;}
+        .pay-note{display:flex;align-items:flex-start;gap:7px;padding:10px;background:rgba(245,158,11,.06);border:1px solid rgba(245,158,11,.12);border-radius:var(--rs);margin-top:10px;font-size:10px;color:var(--t2);line-height:1.4;}.pay-note i{color:var(--secondary);flex-shrink:0;margin-top:1px;font-size:13px;}
+
+        /* PENDING BANNER */
+        .pending-banner{display:flex;align-items:center;gap:10px;padding:14px;background:rgba(245,158,11,.07);border:2px solid rgba(245,158,11,.18);border-radius:var(--rs);margin-bottom:14px;animation:fadeUp .4s;}.pending-icon{width:40px;height:40px;border-radius:11px;background:rgba(245,158,11,.12);color:var(--secondary);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;animation:pulse 2s infinite;}.pending-info{flex:1;}.pending-title{font-weight:700;font-size:12px;margin-bottom:1px;color:var(--secondary);}.pending-desc{font-size:10px;color:var(--t2);line-height:1.4;}
+        .rejected-banner{display:flex;align-items:center;gap:10px;padding:14px;background:rgba(239,68,68,.05);border:2px solid rgba(239,68,68,.12);border-radius:var(--rs);margin-bottom:14px;}.rejected-icon{width:40px;height:40px;border-radius:11px;background:rgba(239,68,68,.1);color:var(--danger);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;}.rejected-info{flex:1;}.rejected-title{font-weight:700;font-size:12px;margin-bottom:1px;color:var(--danger);}.rejected-desc{font-size:10px;color:var(--t2);line-height:1.4;}
+
+        /* CURRENT PLAN BOX */
+        .current-plan-box{display:flex;align-items:center;gap:10px;padding:12px;background:var(--bg2);border-radius:var(--rs);margin-bottom:14px;}.cpb-icon{width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0;}.cpb-info{flex:1;}.cpb-title{font-weight:700;font-size:13px;}.cpb-desc{font-size:10px;color:var(--t2);}.cpb-status{padding:3px 9px;border-radius:var(--rf);font-size:9px;font-weight:700;flex-shrink:0;}
+
+        /* TOGGLE */
+        .toggle-row{display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--border);}.toggle-row:last-child{border-bottom:none;}.toggle-info h4{font-weight:600;font-size:12px;margin-bottom:1px;display:flex;align-items:center;gap:4px;}.toggle-info h4 i{color:var(--primary);}.toggle-info p{font-size:9px;color:var(--t2);}
+        .switch{position:relative;width:40px;height:22px;cursor:pointer;flex-shrink:0;}.switch input{opacity:0;width:0;height:0;}.switch-sl{position:absolute;inset:0;background:var(--border);border-radius:11px;transition:var(--tr);}.switch-sl::before{content:'';position:absolute;width:16px;height:16px;left:3px;bottom:3px;background:#fff;border-radius:50%;transition:var(--tr);}.switch input:checked+.switch-sl{background:var(--primary);}.switch input:checked+.switch-sl::before{transform:translateX(18px);}
+
+        /* DANGER ZONE */
+        .danger-zone{border:2px solid rgba(239,68,68,.2);border-radius:var(--rs);padding:14px;background:rgba(239,68,68,.03);}.dz-title{font-weight:700;font-size:13px;color:var(--danger);margin-bottom:3px;display:flex;align-items:center;gap:6px;}.dz-desc{font-size:11px;color:var(--t2);margin-bottom:12px;}
+
+        /* DELETE MODAL */
+        .del-modal-box{background:var(--card);border-radius:var(--r);width:100%;max-width:380px;box-shadow:var(--shx);animation:modIn .35s;margin:auto;padding:28px 24px;text-align:center;}
+        .del-icon{width:60px;height:60px;border-radius:50%;background:rgba(239,68,68,.1);color:var(--danger);display:flex;align-items:center;justify-content:center;font-size:26px;margin:0 auto 14px;}
+
+        #photoInput{display:none;}
+        .empty-hist{text-align:center;padding:32px 14px;color:var(--muted);}.empty-hist i{font-size:32px;display:block;margin-bottom:8px;opacity:.3;}.empty-hist p{font-size:11px;}
+
+        @media(max-width:900px){.sidebar{transform:translateX(-100%);}.sidebar.mobile-open{transform:translateX(0);}.main{margin-left:0!important;}.mob-btn{display:flex;}.profile-hero{flex-direction:column;align-items:flex-start;gap:14px;}.ph-right{width:100%;text-align:left;display:flex;align-items:center;gap:12px;}}
+        @media(max-width:640px){.fr{grid-template-columns:1fr;}.plan-cards-row{grid-template-columns:1fr;}.content{padding:10px;}.profile-hero{padding:14px;}.ptab{padding:7px 10px;font-size:10px;}.badges-grid{grid-template-columns:repeat(3,1fr);}}
+        @media(max-width:400px){.badges-grid{grid-template-columns:repeat(2,1fr);}.profile-tabs{gap:0;}.ptab{font-size:9px;padding:6px 8px;}}
+    </style>
+</head>
+<body>
+
+<div class="loader" id="loader"><div class="loader-ring"></div><div class="loader-brand">Ofuje</div></div>
+<div class="toast-stack" id="toastStack"></div>
+<div class="sb-overlay" id="sbOverlay" onclick="closeSB()"></div>
+<input type="file" id="photoInput" accept="image/*" onchange="handlePhoto(this)">
+
+<!-- PAYMENT MODAL -->
+<div class="modal" id="payModal">
+    <div class="modal-box">
+        <div class="modal-hd"><div class="modal-tt"><i class="fas fa-credit-card"></i> Upgrade Plan</div><button class="modal-x" onclick="closeModal('payModal')"><i class="fas fa-times"></i></button></div>
+        <div class="modal-bd">
+            <div class="pay-summary"><div class="pay-plan-name" id="payModalPlanName">Premium</div><div class="pay-amount" id="payModalAmount">₦1,500</div></div>
+            <div class="pay-ref-box"><i class="fas fa-hashtag" style="color:var(--primary);"></i><div class="pay-ref-code" id="payRef">OFJ-XXXXXX</div><button class="copy-btn" onclick="copyRef()"><i class="fas fa-copy"></i></button></div>
+            <div id="bankDetailsWrap"><div class="bank-row"><div class="bank-lbl"><i class="fas fa-university"></i> Bank</div><div class="bank-val" id="pmBankName">Loading…</div></div><div class="bank-row"><div class="bank-lbl"><i class="fas fa-hashtag"></i> Acct No.</div><div class="bank-val"><span id="pmAccNum">Loading…</span><button class="copy-btn" onclick="copyText('pmAccNum')"><i class="fas fa-copy"></i></button></div></div><div class="bank-row"><div class="bank-lbl"><i class="fas fa-user"></i> Acct Name</div><div class="bank-val" id="pmAccName">Loading…</div></div></div>
+            <div class="pay-note"><i class="fas fa-exclamation-triangle"></i><div>Use ref <strong id="payRefInNote">OFJ-XXXXXX</strong> as description. <strong>You'll use the free dashboard until admin verifies your payment (1-24 hours).</strong></div></div>
+        </div>
+        <div class="modal-ft"><button class="btn btn-ghost" onclick="closeModal('payModal')">Cancel</button><button class="btn btn-primary" id="confirmPayBtn" onclick="confirmUpgradePayment()" style="flex:1.5;"><div class="spin"></div><span class="bl"><i class="fas fa-check"></i> I've Paid</span></button></div>
+    </div>
+</div>
+
+<!-- DELETE MODAL -->
+<div class="modal" id="deleteModal">
+    <div class="del-modal-box">
+        <div class="del-icon"><i class="fas fa-trash-alt"></i></div>
+        <div style="font-family:'Space Grotesk',sans-serif;font-size:18px;font-weight:800;margin-bottom:6px;">Delete Account?</div>
+        <div style="font-size:12px;color:var(--t2);line-height:1.5;margin-bottom:14px;">This is <strong>permanent</strong>. All data, badges, streaks and history will be deleted.</div>
+        <div class="fg" style="text-align:left;"><label class="fl"><i class="fas fa-lock"></i> Password</label><div class="input-wrap"><input type="password" class="fi" id="deletePass" placeholder="Confirm password"><i class="fas fa-lock ii"></i></div></div>
+        <div style="display:flex;gap:8px;"><button class="btn btn-ghost" style="flex:1;" onclick="closeModal('deleteModal')">Cancel</button><button class="btn btn-danger" style="flex:1;" id="deleteBtn" onclick="deleteAccount()"><div class="spin"></div><span class="bl"><i class="fas fa-trash"></i> Delete</span></button></div>
+    </div>
+</div>
+
+<!-- SIDEBAR -->
+<aside class="sidebar" id="sidebar">
+    <div class="sb-head"><a href="index.html" class="sb-logo"><div class="sb-logo-ic"><i class="fas fa-brain"></i></div><span>Ofuje</span></a></div>
+    <div class="sb-user"><div class="sb-avi" id="sAvi"><span id="sAviTxt">?</span><div class="sb-dot"></div></div><div class="sb-uinfo"><div class="sb-uname" id="sName">Loading…</div><span class="sb-plan p-free" id="sPlan">Free</span></div></div>
+    <div class="sb-xp"><div class="xp-lbl"><span><i class="fas fa-star"></i> XP</span><span id="sXPD">0/500</span></div><div class="xp-trk"><div class="xp-fill" id="sXPF" style="width:0%"></div></div><div class="xp-lvl" id="sXPL">📖 Student</div></div>
+    <nav class="sb-nav">
+        <div class="sb-sec">Main</div>
+        <a class="sb-item" href="dashboard.html"><i class="fas fa-th-large"></i><span>Dashboard</span></a>
+        <a class="sb-item" href="tests.html"><i class="fas fa-file-alt"></i><span>Tests</span></a>
+        <a class="sb-item" href="leaderboard.html"><i class="fas fa-trophy"></i><span>Leaderboard</span></a>
+        <div class="sb-sec">Account</div>
+        <a class="sb-item active" href="profile.html"><i class="fas fa-user-circle"></i><span>Profile</span></a>
+        <a class="sb-item" href="#" onclick="doLogout();return false;"><i class="fas fa-sign-out-alt"></i><span>Logout</span></a>
+    </nav>
+</aside>
+
+<!-- MAIN -->
+<main class="main" id="mainArea">
+    <div class="topbar"><div class="topbar-left"><button class="mob-btn" onclick="openSB()"><i class="fas fa-bars"></i></button><div class="topbar-title"><i class="fas fa-user-circle"></i> Profile</div></div><div class="topbar-right"><button class="tb" id="themeToggle"><i class="fas fa-moon"></i></button><a href="dashboard.html" class="tb"><i class="fas fa-th-large"></i></a></div></div>
+
+    <div class="content">
+        <!-- HERO -->
+        <div class="profile-hero">
+            <div class="ph-avi-wrap" onclick="document.getElementById('photoInput').click()">
+                <div class="ph-avi" id="heroAvi"><span id="heroAviTxt">?</span></div>
+                <div class="ph-camera"><i class="fas fa-camera"></i></div>
+            </div>
+            <div class="ph-info"><div class="ph-name" id="heroName">Loading…</div><div class="ph-email" id="heroEmail">—</div><div class="ph-chips"><div class="ph-chip"><i class="fas fa-fire"></i> <span id="heroStreak">0</span></div><div class="ph-chip"><i class="fas fa-star"></i> <span id="heroXP">0</span></div><div class="ph-chip"><i class="fas fa-medal"></i> <span id="heroBadges">0</span></div><div class="ph-chip" id="heroLvl">📖 Student</div></div></div>
+            <div class="ph-right"><div class="ph-rank" id="heroRank">#—</div><div class="ph-rank-lbl">Rank</div><div class="ph-plan-badge" id="heroPlan"><i class="fas fa-gift"></i> Free</div></div>
+        </div>
+
+        <!-- TABS -->
+        <div class="profile-tabs">
+            <button class="ptab active" onclick="switchTab('profile',this)"><i class="fas fa-user"></i> Profile</button>
+            <button class="ptab" onclick="switchTab('security',this)"><i class="fas fa-lock"></i> Security</button>
+            <button class="ptab" onclick="switchTab('levels',this)"><i class="fas fa-graduation-cap"></i> Levels</button>
+            <button class="ptab" onclick="switchTab('badges',this)"><i class="fas fa-medal"></i> Badges</button>
+            <button class="ptab" onclick="switchTab('history',this)"><i class="fas fa-history"></i> History</button>
+            <button class="ptab" onclick="switchTab('plan',this)"><i class="fas fa-crown"></i> Plan</button>
+            <button class="ptab" onclick="switchTab('prefs',this)"><i class="fas fa-sliders-h"></i> Prefs</button>
+        </div>
+
+        <!-- PROFILE TAB -->
+        <div class="tab-content active" id="tab-profile">
+            <div class="card"><div class="card-hd"><div class="card-ttl"><i class="fas fa-user-edit"></i> Edit Profile</div><button class="btn btn-primary" id="saveProfileBtn" onclick="saveProfile()"><div class="spin"></div><span class="bl"><i class="fas fa-save"></i> Save</span></button></div><div class="card-body">
+                <div class="fr"><div class="fg"><label class="fl"><i class="fas fa-user"></i> Full Name</label><div class="input-wrap"><input class="fi" id="pName" placeholder="Full name"><i class="fas fa-user ii"></i></div></div><div class="fg"><label class="fl"><i class="fas fa-phone"></i> Phone</label><div class="input-wrap"><input type="tel" class="fi" id="pPhone" placeholder="08012345678"><i class="fas fa-phone ii"></i></div></div></div>
+                <div class="fr"><div class="fg"><label class="fl"><i class="fas fa-birthday-cake"></i> Age</label><div class="input-wrap"><input type="number" class="fi" id="pAge" min="10" max="60"><i class="fas fa-birthday-cake ii"></i></div></div><div class="fg"><label class="fl"><i class="fas fa-map-marker-alt"></i> State</label><div class="input-wrap"><select class="fs" id="pState" style="padding-left:38px;"><option value="">Select</option><option>Abia</option><option>Adamawa</option><option>Akwa Ibom</option><option>Anambra</option><option>Bauchi</option><option>Bayelsa</option><option>Benue</option><option>Borno</option><option>Cross River</option><option>Delta</option><option>Ebonyi</option><option>Edo</option><option>Ekiti</option><option>Enugu</option><option>FCT</option><option>Gombe</option><option>Imo</option><option>Jigawa</option><option>Kaduna</option><option>Kano</option><option>Katsina</option><option>Kebbi</option><option>Kogi</option><option>Kwara</option><option>Lagos</option><option>Nasarawa</option><option>Niger</option><option>Ogun</option><option>Ondo</option><option>Osun</option><option>Oyo</option><option>Plateau</option><option>Rivers</option><option>Sokoto</option><option>Taraba</option><option>Yobe</option><option>Zamfara</option></select><i class="fas fa-map-marker-alt ii"></i></div></div></div>
+                <div class="fg"><label class="fl"><i class="fas fa-envelope"></i> Email</label><div class="input-wrap"><input type="email" class="fi" id="pEmail" disabled style="opacity:.6;cursor:not-allowed;"><i class="fas fa-envelope ii"></i></div><div class="fhint"><i class="fas fa-info-circle"></i> Can't change email</div></div>
+            </div></div>
+            <div class="card"><div class="card-hd"><div class="card-ttl"><i class="fas fa-camera"></i> Photo</div></div><div class="card-body" style="display:flex;align-items:center;gap:14px;flex-wrap:wrap;">
+                <div style="width:60px;height:60px;border-radius:16px;background:var(--grad);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:800;font-size:22px;overflow:hidden;flex-shrink:0;" id="photoPreview"><span id="photoPreviewTxt">?</span></div>
+                <div style="flex:1;min-width:140px;"><div style="font-weight:700;font-size:13px;margin-bottom:4px;">Change Photo</div><div style="font-size:10px;color:var(--t2);margin-bottom:10px;">Base64 stored. Max 500KB.</div><div style="display:flex;gap:6px;flex-wrap:wrap;"><button class="btn btn-primary" onclick="document.getElementById('photoInput').click()"><i class="fas fa-upload"></i> Upload</button><button class="btn btn-ghost" onclick="removePhoto()"><i class="fas fa-trash"></i> Remove</button></div></div>
+            </div></div>
+        </div>
+
+        <!-- SECURITY TAB -->
+        <div class="tab-content" id="tab-security">
+            <div class="card"><div class="card-hd"><div class="card-ttl"><i class="fas fa-key"></i> Change Password</div></div><div class="card-body">
+                <div class="fg"><label class="fl"><i class="fas fa-lock"></i> Current Password</label><div class="input-wrap"><input type="password" class="fi" id="curPass" placeholder="Current password"><i class="fas fa-lock ii"></i><i class="fas fa-eye eye-btn" onclick="toggleVis('curPass',this)"></i></div></div>
+                <div class="fg"><label class="fl"><i class="fas fa-lock"></i> New Password</label><div class="input-wrap"><input type="password" class="fi" id="newPass" placeholder="Min 6 chars" oninput="checkStr(this.value)"><i class="fas fa-lock ii"></i><i class="fas fa-eye eye-btn" onclick="toggleVis('newPass',this)"></i></div><div class="strength-bars"><div class="sbar" id="sb0"></div><div class="sbar" id="sb1"></div><div class="sbar" id="sb2"></div><div class="sbar" id="sb3"></div></div><div class="strength-text" id="strTxt"></div></div>
+                <div class="fg"><label class="fl"><i class="fas fa-lock"></i> Confirm</label><div class="input-wrap"><input type="password" class="fi" id="confNewPass" placeholder="Confirm"><i class="fas fa-lock ii"></i></div></div>
+                <button class="btn btn-primary btn-block" id="changePassBtn" onclick="changePassword()"><div class="spin"></div><span class="bl"><i class="fas fa-save"></i> Update</span></button>
+            </div></div>
+            <div class="danger-zone"><div class="dz-title"><i class="fas fa-exclamation-triangle"></i> Danger Zone</div><div class="dz-desc">Permanently delete your account and all data.</div><button class="btn btn-danger" onclick="openModal('deleteModal')"><i class="fas fa-trash-alt"></i> Delete Account</button></div>
+        </div>
+
+        <!-- LEVELS TAB -->
+        <div class="tab-content" id="tab-levels">
+            <div class="card"><div class="card-hd"><div class="card-ttl"><i class="fas fa-graduation-cap"></i> Exam Levels</div><button class="btn btn-primary" id="saveLevelsBtn" onclick="saveLevels()"><div class="spin"></div><span class="bl"><i class="fas fa-save"></i> Save</span></button></div><div class="card-body">
+                <div style="font-size:12px;color:var(--t2);margin-bottom:10px;"><i class="fas fa-info-circle" style="color:var(--primary);"></i> Select up to <strong>2</strong> levels.</div>
+                <div style="font-weight:600;font-size:11px;color:var(--muted);margin-bottom:8px;">Selected: <span id="lvlCount" style="color:var(--primary);">0</span>/2</div>
+                <div class="level-grid" id="lvlGrid">
+                    <div class="level-opt" data-level="JAMB" onclick="togLvl(this)"><div class="level-check"><i class="fas fa-check"></i></div><i class="fas fa-book level-icon"></i><div class="level-name">JAMB</div></div>
+                    <div class="level-opt" data-level="WAEC" onclick="togLvl(this)"><div class="level-check"><i class="fas fa-check"></i></div><i class="fas fa-pen-nib level-icon"></i><div class="level-name">WAEC</div></div>
+                    <div class="level-opt" data-level="NECO" onclick="togLvl(this)"><div class="level-check"><i class="fas fa-check"></i></div><i class="fas fa-file-alt level-icon"></i><div class="level-name">NECO</div></div>
+                    <div class="level-opt" data-level="POST-UTME" onclick="togLvl(this)"><div class="level-check"><i class="fas fa-check"></i></div><i class="fas fa-university level-icon"></i><div class="level-name">POST-UTME</div></div>
+                    <div class="level-opt" data-level="UNIVERSITY EXAMS" onclick="togLvl(this)"><div class="level-check"><i class="fas fa-check"></i></div><i class="fas fa-hat-wizard level-icon"></i><div class="level-name">University</div></div>
+                </div>
+            </div></div>
+        </div>
+
+        <!-- BADGES TAB -->
+        <div class="tab-content" id="tab-badges">
+            <div class="card"><div class="card-hd"><div class="card-ttl"><i class="fas fa-medal"></i> Badges</div><span style="font-size:10px;color:var(--muted);" id="badgeProg">0/9</span></div><div class="card-body"><div class="badges-grid" id="badgesGrid"></div></div></div>
+        </div>
+
+        <!-- HISTORY TAB -->
+        <div class="tab-content" id="tab-history">
+            <div class="card"><div class="card-hd"><div class="card-ttl"><i class="fas fa-history"></i> Test History</div><div style="font-size:10px;color:var(--muted);" id="histCount">0 tests</div></div><div class="card-body" id="histList"><div class="empty-hist"><i class="fas fa-spinner fa-spin"></i><p>Loading…</p></div></div></div>
+        </div>
+
+        <!-- PLAN TAB -->
+        <div class="tab-content" id="tab-plan">
+            <div class="card"><div class="card-hd"><div class="card-ttl"><i class="fas fa-crown"></i> Subscription</div><div style="font-size:11px;" id="planExpiry"></div></div><div class="card-body">
+                <!-- Pending Banner -->
+                <div id="pendingBanner" style="display:none;" class="pending-banner"><div class="pending-icon"><i class="fas fa-clock"></i></div><div class="pending-info"><div class="pending-title"><i class="fas fa-exclamation-triangle"></i> Payment Pending</div><div class="pending-desc">Your <strong id="pendPlanName">Premium</strong> payment is awaiting admin verification. You're on <strong>Free</strong> until verified. Ref: <strong id="pendPayRef">—</strong></div></div></div>
+                <!-- Rejected Banner -->
+                <div id="rejectedBanner" style="display:none;" class="rejected-banner"><div class="rejected-icon"><i class="fas fa-times-circle"></i></div><div class="rejected-info"><div class="rejected-title"><i class="fas fa-ban"></i> Payment Rejected</div><div class="rejected-desc">Previous payment was not verified. You're on <strong>Free</strong>. Try again or contact support.</div></div></div>
+                <!-- Current Plan -->
+                <div class="current-plan-box" id="cpBox"><div class="cpb-icon" id="cpIcon" style="background:rgba(100,116,139,.1);color:var(--t2);"><i class="fas fa-gift"></i></div><div class="cpb-info"><div class="cpb-title" id="cpTitle">Free Plan</div><div class="cpb-desc" id="cpDesc">Your current active plan</div></div><div class="cpb-status" id="cpStatus" style="background:rgba(16,185,129,.12);color:var(--accent);">Active</div></div>
+                <!-- Plan Cards -->
+                <div class="plan-cards-row">
+                    <div class="plan-card-opt" id="planCardFree"><div class="plan-icon" style="background:rgba(100,116,139,.1);color:var(--t2);"><i class="fas fa-gift"></i></div><div style="font-weight:800;font-size:14px;margin-bottom:6px;">Free</div><div class="plan-price-big" style="font-size:20px;">₦0</div><div class="plan-period">Forever</div><ul class="plan-feat-list"><li><i class="fas fa-check"></i> 5 Qs / 72hrs</li><li><i class="fas fa-check"></i> Ads for more</li><li><i class="fas fa-times"></i> No unlimited</li></ul><button class="btn btn-ghost btn-block" disabled id="freeBtn">Current</button></div>
+                    <div class="plan-card-opt" id="planCardPremium" style="border-color:var(--pl);"><div class="plan-icon" style="background:rgba(108,60,225,.1);color:var(--primary);"><i class="fas fa-gem"></i></div><div style="font-weight:800;font-size:14px;margin-bottom:6px;">💎 Premium</div><div class="plan-price-big" style="font-size:20px;">₦1,500</div><div class="plan-period">/month</div><ul class="plan-feat-list"><li><i class="fas fa-check"></i> Unlimited</li><li><i class="fas fa-check"></i> No ads</li><li><i class="fas fa-check"></i> Insights</li></ul><button class="btn btn-primary btn-block" id="premBtn" onclick="upgradePlan('premium')"><i class="fas fa-rocket"></i> Upgrade</button></div>
+                    <div class="plan-card-opt" id="planCardPP"><div class="plan-icon" style="background:rgba(245,158,11,.1);color:var(--secondary);"><i class="fas fa-crown"></i></div><div style="font-weight:800;font-size:14px;margin-bottom:6px;">👑 Premium++</div><div class="plan-price-big" style="font-size:20px;">₦3,000</div><div class="plan-period">/3 months</div><ul class="plan-feat-list"><li><i class="fas fa-check"></i> All Premium</li><li><i class="fas fa-check"></i> Exclusives</li><li><i class="fas fa-check"></i> Streak freeze</li></ul><button class="btn btn-warm btn-block" id="ppBtn" onclick="upgradePlan('premiumplus')"><i class="fas fa-crown"></i> Get P++</button></div>
+                </div>
+            </div></div>
+        </div>
+
+        <!-- PREFS TAB -->
+        <div class="tab-content" id="tab-prefs">
+            <div class="card"><div class="card-hd"><div class="card-ttl"><i class="fas fa-sliders-h"></i> Preferences</div><button class="btn btn-primary" onclick="savePrefs()"><i class="fas fa-save"></i> Save</button></div><div class="card-body">
+                <div class="toggle-row"><div class="toggle-info"><h4><i class="fas fa-moon"></i> Dark Mode</h4><p>Dark interface theme</p></div><label class="switch"><input type="checkbox" id="prefDark" onchange="toggleDarkPref(this)"><div class="switch-sl"></div></label></div>
+                <div class="toggle-row"><div class="toggle-info"><h4><i class="fas fa-bell"></i> Streak Reminders</h4><p>Daily streak notifications</p></div><label class="switch"><input type="checkbox" id="prefStreak" checked><div class="switch-sl"></div></label></div>
+                <div class="toggle-row"><div class="toggle-info"><h4><i class="fas fa-trophy"></i> Achievement Alerts</h4><p>Badge unlock notifications</p></div><label class="switch"><input type="checkbox" id="prefAch" checked><div class="switch-sl"></div></label></div>
+                <div class="toggle-row"><div class="toggle-info"><h4><i class="fas fa-forward"></i> Auto-Advance</h4><p>Move to next question after selecting</p></div><label class="switch"><input type="checkbox" id="prefAuto" checked><div class="switch-sl"></div></label></div>
+            </div></div>
+        </div>
+    </div>
+</main>
+
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+<script>
+const FC={apiKey: "AIzaSyCQ5LEiCCeBzQNrBNXF2--BE-Cp6p0Q9f0",
+  authDomain: "ofuje-a6c29.firebaseapp.com",
+  projectId: "ofuje-a6c29",
+  storageBucket: "ofuje-a6c29.firebasestorage.app",
+  messagingSenderId: "643585276217",
+  appId: "1:643585276217:web:843900d17d0566a756d0e8"};
+firebase.initializeApp(FC);const auth=firebase.auth(),db=firebase.firestore();
+
+function setTh(t){document.documentElement.setAttribute('data-theme',t);localStorage.setItem('ofuje-theme',t);document.getElementById('themeToggle').querySelector('i').className=t==='dark'?'fas fa-sun':'fas fa-moon';const p=document.getElementById('prefDark');if(p)p.checked=t==='dark';}
+setTh(localStorage.getItem('ofuje-theme')||'light');
+document.getElementById('themeToggle').addEventListener('click',()=>setTh(document.documentElement.getAttribute('data-theme')==='dark'?'light':'dark'));
+function toggleDarkPref(cb){setTh(cb.checked?'dark':'light');}
+window.addEventListener('load',()=>setTimeout(()=>document.getElementById('loader').classList.add('hidden'),700));
+function toast(t,m='',tp='info'){if(['success','error','info','warn'].includes(m)){tp=m;m='';}const ic={success:'fa-check-circle',error:'fa-times-circle',info:'fa-info-circle',warn:'fa-exclamation-triangle'};const e=document.createElement('div');e.className=`toast toast-${tp}`;e.innerHTML=`<div class="ti"><i class="fas ${ic[tp]}"></i></div><div><div class="tt">${t}</div>${m?`<div class="tm">${m}</div>`:''}</div>`;document.getElementById('toastStack').appendChild(e);setTimeout(()=>{e.style.transition='all .4s';e.style.opacity='0';e.style.transform='translateX(60px)';setTimeout(()=>e.remove(),400);},4500);}
+
+function getIni(n){if(!n||typeof n!=='string')return'?';return n.trim().split(/\s+/).map(x=>x.charAt(0)).join('').substring(0,2).toUpperCase();}
+function getLvl(xp){const ls=[{n:'Student',i:'📖',min:0,max:500},{n:'Scholar',i:'🎓',min:500,max:1500},{n:'Expert',i:'⚡',min:1500,max:3500},{n:'Master',i:'👑',min:3500,max:7000},{n:'Legend',i:'🌟',min:7000,max:Infinity}];for(const l of ls){if(xp>=l.min&&xp<l.max){const p=l.max===Infinity?100:Math.min(100,((xp-l.min)/(l.max-l.min))*100);return{n:l.n,i:l.i,p:Math.round(p),nx:l.max===Infinity?'∞':l.max};}}return{n:'Student',i:'📖',p:0,nx:500};}
+
+/* ★ EFFECTIVE PLAN — Only premium if payment verified ★ */
+function getEffectivePlan(){
+    if(!userData)return'free';
+    if(userData.paymentVerified===true&&userData.planStatus==='active')return userData.selectedPlan||'free';
+    return'free';
+}
+
+function openSB(){document.getElementById('sidebar').classList.add('mobile-open');document.getElementById('sbOverlay').classList.add('show');}
+function closeSB(){document.getElementById('sidebar').classList.remove('mobile-open');document.getElementById('sbOverlay').classList.remove('show');}
+function switchTab(name,btn){document.querySelectorAll('.tab-content').forEach(t=>t.classList.remove('active'));document.querySelectorAll('.ptab').forEach(t=>t.classList.remove('active'));document.getElementById(`tab-${name}`)?.classList.add('active');btn.classList.add('active');}
+function openModal(id){document.getElementById(id).classList.add('open');}
+function closeModal(id){document.getElementById(id).classList.remove('open');}
+document.querySelectorAll('.modal').forEach(m=>{m.addEventListener('click',function(e){if(e.target===this)this.classList.remove('open');});});
+
+let currentUser=null,userData=null,selectedLevels=[],pendingUpgradePlan=null,pendingPayRef='';
+
+// Check URL params
+const urlTab=new URLSearchParams(location.search).get('tab');
+
+auth.onAuthStateChanged(async u=>{if(!u){location.href='login.html';return;}currentUser=u;await loadUserData();await Promise.all([renderBadges(),loadHistory()]);loadPrefs();if(urlTab){const tabBtn=document.querySelector(`.ptab[onclick*="'${urlTab}'"]`);if(tabBtn)switchTab(urlTab,tabBtn);}});
+
+async function loadUserData(){
+    const snap=await db.collection('users').doc(currentUser.uid).get();
+    userData=snap.data()||{};
+    if(userData.role==='admin'){location.href='admin.html';return;}
+    const name=userData.fullName||'Student';const ini=getIni(name);const xp=userData.xp||0;const lv=getLvl(xp);
+    const effectivePlan=getEffectivePlan();
+    const planIcons={free:'<i class="fas fa-gift"></i>',premium:'<i class="fas fa-gem"></i>',premiumplus:'<i class="fas fa-crown"></i>'};
+    const planNames={free:'Free',premium:'💎 Premium',premiumplus:'👑 P++'};
+
+    // Sidebar
+    updateAvi('sAvi','sAviTxt',ini,userData.profilePhoto);
+    document.getElementById('sName').textContent=name;
+    const sp=document.getElementById('sPlan');sp.textContent=planNames[effectivePlan]||'Free';sp.className=`sb-plan p-${effectivePlan}`;
+    document.getElementById('sXPD').textContent=`${xp}/${lv.nx}`;document.getElementById('sXPF').style.width=lv.p+'%';document.getElementById('sXPL').textContent=`${lv.i} ${lv.n}`;
+
+    // Hero
+    updateAvi('heroAvi','heroAviTxt',ini,userData.profilePhoto);
+    updateAvi('photoPreview','photoPreviewTxt',ini,userData.profilePhoto);
+    document.getElementById('heroName').textContent=name;document.getElementById('heroEmail').textContent=userData.email||'';
+    document.getElementById('heroStreak').textContent=userData.streak||0;document.getElementById('heroXP').textContent=xp.toLocaleString();
+    document.getElementById('heroBadges').textContent=(userData.badges||[]).length;document.getElementById('heroLvl').textContent=`${lv.i} ${lv.n}`;
+    document.getElementById('heroPlan').innerHTML=`${planIcons[effectivePlan]||''} ${planNames[effectivePlan]||'Free'}${userData.planStatus==='pending'?' (Pending)':''}`;
+
+    // Rank
+    try{const rs=await db.collection('users').orderBy('xp','desc').get();let r=1;rs.forEach(d=>{if(d.id!==currentUser.uid&&(d.data().xp||0)>xp)r++;});document.getElementById('heroRank').textContent='#'+r;}catch(e){}
+
+    // Form fields
+    document.getElementById('pName').value=userData.fullName||'';document.getElementById('pPhone').value=userData.phone||'';
+    document.getElementById('pAge').value=userData.age||'';document.getElementById('pEmail').value=userData.email||'';
+    if(userData.state)document.getElementById('pState').value=userData.state;
+
+    // Levels
+    selectedLevels=[...(userData.educationLevels||[])];renderLvlGrid();
+
+    // Plan tab
+    renderPlanTab();
+}
+
+function updateAvi(wrapId,txtId,ini,photo){
+    const wrap=document.getElementById(wrapId);
+    if(photo){wrap.innerHTML=`<img src="${photo}" style="width:100%;height:100%;object-fit:cover;border-radius:inherit;">`;}
+    else{const txt=document.getElementById(txtId);if(txt)txt.textContent=ini;else wrap.innerHTML=`<span>${ini}</span>`;}
+}
+
+/* PHOTO */
+function handlePhoto(input){const file=input.files[0];if(!file)return;if(file.size>800000){toast('Max 800KB','error');return;}const reader=new FileReader();reader.onload=async function(e){const b64=e.target.result;const ini=getIni(userData.fullName);
+['heroAvi','sAvi','photoPreview'].forEach(id=>{document.getElementById(id).innerHTML=`<img src="${b64}" style="width:100%;height:100%;object-fit:cover;border-radius:inherit;">`;});
+await db.collection('users').doc(currentUser.uid).update({profilePhoto:b64,updatedAt:firebase.firestore.FieldValue.serverTimestamp()});toast('Photo saved','success');};reader.readAsDataURL(file);}
+async function removePhoto(){const ini=getIni(userData.fullName);['heroAvi','sAvi','photoPreview'].forEach(id=>{document.getElementById(id).innerHTML=`<span>${ini}</span>`;});await db.collection('users').doc(currentUser.uid).update({profilePhoto:'',updatedAt:firebase.firestore.FieldValue.serverTimestamp()});toast('Photo removed','info');}
+
+/* SAVE PROFILE */
+async function saveProfile(){const btn=document.getElementById('saveProfileBtn');btn.classList.add('loading');btn.disabled=true;try{const name=document.getElementById('pName').value.trim();if(!name){toast('Name required','error');return;}await db.collection('users').doc(currentUser.uid).update({fullName:name,phone:document.getElementById('pPhone').value.trim(),age:parseInt(document.getElementById('pAge').value)||0,state:document.getElementById('pState').value,updatedAt:firebase.firestore.FieldValue.serverTimestamp()});await currentUser.updateProfile({displayName:name});document.getElementById('heroName').textContent=name;document.getElementById('sName').textContent=name;toast('Saved','success');}catch(e){toast('Error','error');}finally{btn.classList.remove('loading');btn.disabled=false;}}
+
+/* PASSWORD */
+function toggleVis(id,icon){const inp=document.getElementById(id);if(inp.type==='password'){inp.type='text';icon.className='fas fa-eye-slash eye-btn';}else{inp.type='password';icon.className='fas fa-eye eye-btn';}}
+function checkStr(v){let s=0;if(v.length>=6)s++;if(v.length>=8)s++;if(/[A-Z]/.test(v)&&/[a-z]/.test(v))s++;if(/[0-9]/.test(v)&&/[^a-zA-Z0-9]/.test(v))s++;const c=s<=1?'w':s<=2?'m':'s';['sb0','sb1','sb2','sb3'].forEach((id,i)=>{document.getElementById(id).className='sbar'+(i<s?' '+c:'');});const t=document.getElementById('strTxt');if(!v){t.textContent='';t.style.color='';}else{t.textContent=s<=1?'Weak':s<=2?'Medium':'Strong';t.style.color=s<=1?'var(--danger)':s<=2?'var(--secondary)':'var(--accent)';}}
+async function changePassword(){const btn=document.getElementById('changePassBtn');btn.classList.add('loading');btn.disabled=true;try{const cur=document.getElementById('curPass').value,newP=document.getElementById('newPass').value,conf=document.getElementById('confNewPass').value;if(!cur||!newP||!conf){toast('Fill all fields','error');return;}if(newP.length<6){toast('Min 6 chars','error');return;}if(newP!==conf){toast('Passwords don\'t match','error');return;}const cred=firebase.auth.EmailAuthProvider.credential(currentUser.email,cur);await currentUser.reauthenticateWithCredential(cred);await currentUser.updatePassword(newP);['curPass','newPass','confNewPass'].forEach(id=>document.getElementById(id).value='');toast('Password updated','success');}catch(e){toast(e.code==='auth/wrong-password'?'Wrong password':'Error','error');}finally{btn.classList.remove('loading');btn.disabled=false;}}
+
+/* LEVELS */
+function renderLvlGrid(){document.querySelectorAll('.level-opt').forEach(opt=>{const l=opt.dataset.level;opt.classList.toggle('selected',selectedLevels.includes(l));if(!selectedLevels.includes(l)&&selectedLevels.length>=2)opt.classList.add('disabled');else opt.classList.remove('disabled');});document.getElementById('lvlCount').textContent=selectedLevels.length;}
+function togLvl(opt){if(opt.classList.contains('disabled'))return;const l=opt.dataset.level;if(selectedLevels.includes(l))selectedLevels=selectedLevels.filter(x=>x!==l);else{if(selectedLevels.length>=2){toast('Max 2','warn');return;}selectedLevels.push(l);}renderLvlGrid();}
+async function saveLevels(){if(!selectedLevels.length){toast('Select at least 1','warn');return;}const btn=document.getElementById('saveLevelsBtn');btn.classList.add('loading');btn.disabled=true;try{await db.collection('users').doc(currentUser.uid).update({educationLevels:selectedLevels,updatedAt:firebase.firestore.FieldValue.serverTimestamp()});toast('Levels saved','success');}catch(e){toast('Error','error');}finally{btn.classList.remove('loading');btn.disabled=false;}}
+
+/* BADGES */
+const ALL_BADGES=[{id:'first_test',e:'🎯',n:'First Test',d:'Complete first test'},{id:'100_questions',e:'🧠',n:'100 Qs',d:'Answer 100 questions'},{id:'7_day_streak',e:'🔥',n:'7-Day',d:'7 day login streak'},{id:'perfect_score',e:'⚡',n:'Perfect',d:'Score 100%'},{id:'top_10',e:'🏆',n:'Top 10',d:'Global top 10'},{id:'waec_mastery',e:'📚',n:'WAEC',d:'70%+ on WAEC'},{id:'jamb_champion',e:'🎓',n:'JAMB',d:'70%+ on JAMB'},{id:'70_day_streak',e:'👑',n:'Gold',d:'70 day streak'},{id:'consistent_70',e:'🥶',n:'Consistent',d:'70% three times'}];
+async function renderBadges(){const earned=userData?.badges||[];document.getElementById('badgeProg').textContent=`${earned.length}/9`;document.getElementById('badgesGrid').innerHTML=ALL_BADGES.map(b=>`<div class="badge-full ${earned.includes(b.id)?'earned':'locked'}"><span class="badge-emoji-lg">${b.e}</span><div class="badge-name-lg">${b.n}</div><div class="badge-desc-sm">${b.d}</div>${earned.includes(b.id)?'<div style="font-size:9px;color:var(--accent);margin-top:4px;font-weight:600;"><i class="fas fa-check-circle"></i> Earned</div>':'<div style="font-size:9px;color:var(--muted);margin-top:4px;">🔒 Locked</div>'}</div>`).join('');}
+
+/* HISTORY */
+async function loadHistory(){try{const snap=await db.collection('results').where('userId','==',currentUser.uid).orderBy('createdAt','desc').limit(30).get();document.getElementById('histCount').textContent=`${snap.size} test${snap.size!==1?'s':''}`;if(snap.empty){document.getElementById('histList').innerHTML=`<div class="empty-hist"><i class="fas fa-file-alt"></i><p>No tests yet. <a href="tests.html" style="color:var(--primary);font-weight:700;">Start!</a></p></div>`;return;}
+const grads=['linear-gradient(135deg,#6C3CE1,#8B5CF6)','linear-gradient(135deg,#F59E0B,#F97316)','linear-gradient(135deg,#10B981,#06B6D4)','linear-gradient(135deg,#EF4444,#F97316)','linear-gradient(135deg,#3B82F6,#8B5CF6)'];
+document.getElementById('histList').innerHTML=snap.docs.map((d,i)=>{const r=d.data();const pct=r.score||0;const sc=pct>=70?'var(--accent)':pct>=50?'var(--secondary)':'var(--danger)';const dm=Math.floor((r.timeTaken||0)/60),ds=(r.timeTaken||0)%60;const dt=r.createdAt?.toDate?.()?.toLocaleDateString('en-NG',{month:'short',day:'numeric',year:'numeric'})||'—';
+return`<div class="hist-item"><div class="hist-icon" style="background:${grads[i%5]};"><i class="fas fa-file-alt"></i></div><div class="hist-info"><div class="hist-name">${r.testTitle||'Test'}</div><div class="hist-meta"><span><i class="fas fa-calendar"></i> ${dt}</span><span><i class="fas fa-clock"></i> ${dm}m${ds}s</span><span><i class="fas fa-check"></i> ${r.correctAnswers||0}/${r.totalQuestions||0}</span>${r.isDaily?'<span style="color:var(--primary);font-weight:700;"><i class="fas fa-crosshairs"></i> Daily</span>':''}</div></div><div class="hist-right"><div class="hist-score" style="color:${sc};">${pct}%</div><div class="hist-xp"><i class="fas fa-star"></i> +${r.xpEarned||0}</div><div class="hist-bar"><div class="hist-bar-fill" style="width:${pct}%;background:${sc};"></div></div></div></div>`;}).join('');}catch(e){document.getElementById('histList').innerHTML=`<div class="empty-hist"><i class="fas fa-exclamation-circle"></i><p>Failed to load</p></div>`;}}
+
+/* ═══ PLAN TAB — PAYMENT GATE ═══ */
+function renderPlanTab(){
+    const selectedPlan=userData?.selectedPlan||'free';
+    const planStatus=userData?.planStatus||'active';
+    const paymentVerified=userData?.paymentVerified===true;
+    const effectivePlan=getEffectivePlan();
+
+    // Current plan box
+    const cpIcon=document.getElementById('cpIcon');
+    const cpTitle=document.getElementById('cpTitle');
+    const cpDesc=document.getElementById('cpDesc');
+    const cpStatus=document.getElementById('cpStatus');
+
+    if(effectivePlan==='free'){
+        cpIcon.style.background='rgba(100,116,139,.1)';cpIcon.style.color='var(--t2)';cpIcon.innerHTML='<i class="fas fa-gift"></i>';
+        cpTitle.textContent='Free Plan';cpStatus.textContent='Active';cpStatus.style.background='rgba(16,185,129,.12)';cpStatus.style.color='var(--accent)';
+        if(planStatus==='pending'){cpDesc.textContent='Pending verification — free features only';cpStatus.textContent='Free (Pending)';cpStatus.style.background='rgba(245,158,11,.12)';cpStatus.style.color='var(--secondary)';}
+        else if(planStatus==='rejected'){cpDesc.textContent='Previous payment rejected';cpStatus.textContent='Free';}
+        else cpDesc.textContent='Current active plan';
+    }else if(effectivePlan==='premium'){
+        cpIcon.style.background='rgba(108,60,225,.1)';cpIcon.style.color='var(--primary)';cpIcon.innerHTML='<i class="fas fa-gem"></i>';
+        cpTitle.textContent='💎 Premium';cpDesc.textContent='Full premium access';cpStatus.textContent='Active';cpStatus.style.background='rgba(16,185,129,.12)';cpStatus.style.color='var(--accent)';
+    }else if(effectivePlan==='premiumplus'){
+        cpIcon.style.background='rgba(245,158,11,.1)';cpIcon.style.color='var(--secondary)';cpIcon.innerHTML='<i class="fas fa-crown"></i>';
+        cpTitle.textContent='👑 Premium++';cpDesc.textContent='Full premium++ access';cpStatus.textContent='Active';cpStatus.style.background='rgba(16,185,129,.12)';cpStatus.style.color='var(--accent)';
+    }
+
+    // Banners
+    document.getElementById('pendingBanner').style.display='none';
+    document.getElementById('rejectedBanner').style.display='none';
+    if(planStatus==='pending'&&!paymentVerified){
+        document.getElementById('pendingBanner').style.display='';
+        document.getElementById('pendPlanName').textContent=selectedPlan==='premium'?'Premium':'Premium++';
+        document.getElementById('pendPayRef').textContent=userData.paymentRef||'—';
+    }else if(planStatus==='rejected'){
+        document.getElementById('rejectedBanner').style.display='';
+    }
+
+    // Plan card highlights
+    document.getElementById('planCardFree').classList.toggle('current',effectivePlan==='free');
+    document.getElementById('planCardPremium').classList.toggle('current',effectivePlan==='premium');
+    document.getElementById('planCardPP').classList.toggle('current',effectivePlan==='premiumplus');
+
+    // Buttons
+    const fBtn=document.getElementById('freeBtn');
+    const pBtn=document.getElementById('premBtn');
+    const ppBtn=document.getElementById('ppBtn');
+
+    if(planStatus==='pending'&&!paymentVerified){
+        pBtn.disabled=true;pBtn.innerHTML='<i class="fas fa-clock"></i> Pending';
+        ppBtn.disabled=true;ppBtn.innerHTML='<i class="fas fa-clock"></i> Pending';
+        fBtn.textContent='Current (Pending)';
+    }else if(effectivePlan==='free'){
+        fBtn.textContent='Current';fBtn.disabled=true;
+        pBtn.disabled=false;pBtn.innerHTML='<i class="fas fa-rocket"></i> Upgrade';
+        ppBtn.disabled=false;ppBtn.innerHTML='<i class="fas fa-crown"></i> Get P++';
+    }else if(effectivePlan==='premium'){
+        fBtn.textContent='Downgrade';fBtn.disabled=false;
+        pBtn.textContent='Current';pBtn.disabled=true;
+        ppBtn.disabled=false;ppBtn.innerHTML='<i class="fas fa-crown"></i> Upgrade';
+    }else if(effectivePlan==='premiumplus'){
+        fBtn.textContent='Downgrade';fBtn.disabled=false;
+        pBtn.textContent='Downgrade';pBtn.disabled=false;
+        ppBtn.textContent='Current';ppBtn.disabled=true;
+    }
+
+    if(userData?.planExpiry){const exp=userData.planExpiry.toDate?.()?.toLocaleDateString('en-NG',{month:'long',day:'numeric',year:'numeric'});if(exp)document.getElementById('planExpiry').innerHTML=`<span style="font-size:10px;color:var(--accent);"><i class="fas fa-calendar-check"></i> Expires: ${exp}</span>`;}
+}
+
+/* UPGRADE — Creates payment, sets PENDING */
+async function upgradePlan(plan){
+    if(userData?.planStatus==='pending'&&!userData?.paymentVerified){toast('Payment pending','Your previous payment is awaiting verification','warn');return;}
+    pendingUpgradePlan=plan;pendingPayRef='OFJ-'+Math.random().toString(36).substr(2,6).toUpperCase();
+    const pd={premium:{n:'Premium',d:'Monthly',a:'₦1,500'},premiumplus:{n:'Premium++',d:'3-month',a:'₦3,000'}};
+    const p=pd[plan];document.getElementById('payModalPlanName').textContent=p.n;document.getElementById('payModalAmount').textContent=p.a;
+    document.getElementById('payRef').textContent=pendingPayRef;document.getElementById('payRefInNote').textContent=pendingPayRef;
+    try{const snap=await db.collection('settings').doc('payment').get();if(snap.exists){const d=snap.data();document.getElementById('pmBankName').textContent=d.bankName||'Contact admin';document.getElementById('pmAccNum').textContent=d.accountNumber||'Contact admin';document.getElementById('pmAccName').textContent=d.accountName||'Contact admin';}}catch(e){}
+    openModal('payModal');
+}
+
+function copyRef(){navigator.clipboard.writeText(pendingPayRef||document.getElementById('payRef').textContent).then(()=>toast('Copied!','success')).catch(()=>{});}
+function copyText(id){navigator.clipboard.writeText(document.getElementById(id).textContent).then(()=>toast('Copied!','success')).catch(()=>{});}
+
+async function confirmUpgradePayment(){
+    const btn=document.getElementById('confirmPayBtn');btn.classList.add('loading');btn.disabled=true;
+    try{const amount=pendingUpgradePlan==='premium'?1500:3000;
+    await db.collection('payments').add({userId:currentUser.uid,userName:userData.fullName||'',userEmail:userData.email||'',userPhone:userData.phone||'',plan:pendingUpgradePlan,amount,reference:pendingPayRef,status:'pending',method:'bank_transfer',confirmedByUser:true,verifiedByAdmin:false,adminNote:'',userConfirmedAt:firebase.firestore.FieldValue.serverTimestamp(),createdAt:firebase.firestore.FieldValue.serverTimestamp()});
+
+    // ★ User stays on FREE until admin verifies
+    await db.collection('users').doc(currentUser.uid).update({
+        selectedPlan:pendingUpgradePlan,
+        planStatus:'pending',
+        paymentVerified:false,
+        paymentRef:pendingPayRef,
+        paymentConfirmedByUser:true,
+        updatedAt:firebase.firestore.FieldValue.serverTimestamp()
+    });
+
+    // Notify admin
+    const adminSnap=await db.collection('users').where('role','==','admin').limit(1).get();
+    if(!adminSnap.empty){await db.collection('notifications').add({userId:adminSnap.docs[0].id,type:'payment',title:'💰 New Payment!',message:`${userData.fullName} wants ${pendingUpgradePlan==='premium'?'Premium':'Premium++'}. Ref: ${pendingPayRef}`,read:false,createdAt:firebase.firestore.FieldValue.serverTimestamp()});}
+
+    userData.selectedPlan=pendingUpgradePlan;userData.planStatus='pending';userData.paymentVerified=false;userData.paymentRef=pendingPayRef;
+    closeModal('payModal');toast('Payment submitted! ⏳','Awaiting admin verification. Free features until verified.','success');renderPlanTab();
+    // Update hero plan badge
+    document.getElementById('heroPlan').innerHTML=`<i class="fas fa-clock"></i> ${pendingUpgradePlan==='premium'?'Premium':'P++'} (Pending)`;
+    document.getElementById('sPlan').textContent='Free (Pending)';document.getElementById('sPlan').className='sb-plan p-free';
+    }catch(e){toast('Error','error');}finally{btn.classList.remove('loading');btn.disabled=false;}}
+
+/* PREFS */
+function loadPrefs(){const p=JSON.parse(localStorage.getItem('ofuje-prefs')||'{}');document.getElementById('prefStreak').checked=p.streakReminder!==false;document.getElementById('prefAch').checked=p.achievementAlerts!==false;document.getElementById('prefAuto').checked=p.autoAdvance!==false;document.getElementById('prefDark').checked=document.documentElement.getAttribute('data-theme')==='dark';}
+function savePrefs(){localStorage.setItem('ofuje-prefs',JSON.stringify({streakReminder:document.getElementById('prefStreak').checked,achievementAlerts:document.getElementById('prefAch').checked,autoAdvance:document.getElementById('prefAuto').checked}));toast('Preferences saved','success');}
+
+/* DELETE */
+async function deleteAccount(){const btn=document.getElementById('deleteBtn');btn.classList.add('loading');btn.disabled=true;try{const pass=document.getElementById('deletePass').value;if(!pass){toast('Enter password','error');return;}const cred=firebase.auth.EmailAuthProvider.credential(currentUser.email,pass);await currentUser.reauthenticateWithCredential(cred);const batch=db.batch();batch.delete(db.collection('users').doc(currentUser.uid));const nSnap=await db.collection('notifications').where('userId','==',currentUser.uid).get();nSnap.forEach(d=>batch.delete(d.ref));const rSnap=await db.collection('results').where('userId','==',currentUser.uid).get();rSnap.forEach(d=>batch.delete(d.ref));await batch.commit();await currentUser.delete();toast('Account deleted','info');setTimeout(()=>location.href='index.html',1500);}catch(e){toast(e.code==='auth/wrong-password'?'Wrong password':'Error','error');}finally{btn.classList.remove('loading');btn.disabled=false;}}
+
+async function doLogout(){if(!confirm('Logout?'))return;await auth.signOut();location.href='login.html';}
+</script>
+</body>
+</html>
